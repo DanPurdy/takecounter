@@ -2,33 +2,55 @@
 <html>
 <head>
 	<link rel="stylesheet" href="layout.css" type="text/css" media="screen">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="jquery-1.9.1.js"></script>
 	<title>Angel Take Counter</title>
 </head>
 <body>
 	<div id='wrapper'>
 	<div id="label"><h1>Take</h1></div>
-	<div id="take" class="red">1</div>
+	<div id="label"><h1>Pass</h1></div>
+	<div id="take" class="yellow">1</div>
+	<div id="pass">1</div>
+	<div id="state" class="next">Next</div>
 	</div>
 
 <script>
 (function(){
 
-	var take = parseInt($('#take').text());
+	var take = parseInt($('#take').text()),
+	current=$('#state').text();
 
 	 $(window).keydown(function(event){
 		key = event.keyCode;
+
 	 switch(key){
-	 	case 13: take+=1;
+	 	case 107: 
+	 		if(take <999){
+	 				if(current=='Now'){ 
+	 					current='Next', 
+	 					take++ ;
+	 				}else{ 
+	 					current='Now';
+	 				};
+	 		}else if(take ==999 && current !='Now'){
+	 			current='Now';
+	 	}
 	 	break;
-	 	case 8: take-=1;
+	 	case 109: take-=1,
+	 				current='Now';
 	 	break;
-	 	case 32: take = parseInt(prompt("Take?")) || take;
+	 	case 106: current='Next', 
+	 				take = parseInt(prompt("Take?"))|| take;
 		break;
 	 };
 
 	 take = (take <=1) ? 1 : take;
 	 take = (take >=999) ? 999 : take;
+	 if (current=='Now'){ 
+	 	$('#state').text(current).removeClass('next').addClass('now') 
+	 }else{
+	 	$('#state').text(current).removeClass('now').addClass('next')
+	 }
 	 $('#take').text(take);
     });
 })();

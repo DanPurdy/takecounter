@@ -40,13 +40,11 @@ h1,h2,h3,h4,h5,h6 {
 	padding-bottom:2px;
 	font-variant: small-caps;
 	text-transform: capitalize;
-	font-weight:bold;
-
-	
+	font-weight:bold;	
 }
 
 h1 {
-	font-size: 100px;
+	font-size: 80px;
 }
 
 h1,h2,h3,h4,h6 {color:#FFF}
@@ -58,21 +56,49 @@ h6 {text-transform:none;font-variant:normal;}
 
 
 #wrapper{
-	width:600px;
-	margin: 70px auto;
+	width:650px;
+	margin: 20px auto;
 	text-align: center;
+	border:1px dotted #ffffff;
+}
+#label{
+	border:1px dotted #ffffff;
+	float:left;
 }
 
-#take{
-	margin:auto;
+#take, #pass{
+	float:left;
 	text-align: center;
-	font-size: 350px;
+	font-size: 220px;
 	overflow: hidden;
-	width:580px;
+	border:1px dotted #ffffff;
 }
-.red{
-	color:#ffff00;
+
+#take, #label:first-child{
+	width:400px;
 }
+
+#pass, #label:nth-child(2){
+	width:245px;
+}
+
+
+#state{
+	font-size: 70px;
+	border:1px dotted #ffffff;
+}
+.yellow{
+	color: #ffff00;
+} 
+.now{
+	color:#ff0000;
+}
+
+.next{
+	color:#00FF00;
+}
+
+
 
 
 

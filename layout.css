@@ -59,37 +59,37 @@ h6 {text-transform:none;font-variant:normal;}
 	width:650px;
 	margin: 20px auto;
 	text-align: center;
-	border:1px dotted #ffffff;
 }
 #label{
-	border:1px dotted #ffffff;
 	float:left;
 }
 
 #take, #pass{
 	float:left;
 	text-align: center;
-	font-size: 220px;
 	overflow: hidden;
-	border:1px dotted #ffffff;
 }
 
 #take, #label:first-child{
 	width:400px;
 }
+#take{
+	font-size: 220px;
+}
 
 #pass, #label:nth-child(2){
 	width:245px;
 }
-
+#pass{ font-size:140px;}
 
 #state{
 	font-size: 70px;
-	border:1px dotted #ffffff;
+	clear:both;
 }
 .yellow{
 	color: #ffff00;
 } 
+
 .now{
 	color:#ff0000;
 }

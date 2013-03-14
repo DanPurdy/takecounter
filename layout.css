@@ -8,7 +8,7 @@ html {
 body {
 	margin: 0;
   	padding: 0;
-	font: 12px Helvetica, Arial;
+	font: 12px arial;
 	color:#a1a4b0;
 	background-color: #000000;
 
@@ -56,8 +56,8 @@ h6 {text-transform:none;font-variant:normal;}
 
 
 #wrapper{
-	width:650px;
-	margin: 20px auto;
+	width:600px;
+	margin: 10px auto;
 	text-align: center;
 }
 #label{
@@ -71,16 +71,16 @@ h6 {text-transform:none;font-variant:normal;}
 }
 
 #take, #label:first-child{
-	width:400px;
+	width:300px;
 }
 #take{
-	font-size: 220px;
+	font-size: 180px;
 }
 
 #pass, #label:nth-child(2){
 	width:245px;
 }
-#pass{ font-size:140px;}
+#pass{ font-size:100px;}
 
 #state{
 	font-size: 70px;

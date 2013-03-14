@@ -1,0 +1,78 @@
+/* =====LAYOUT=======*/
+
+html {
+	background-color:#000000;
+	color:#ffffff;
+	}
+
+body {
+	margin: 0;
+  	padding: 0;
+	font: 12px Helvetica, Arial;
+	color:#a1a4b0;
+	background-color: #000000;
+
+	
+	}
+	
+/* Set margin and padding to 0 for all elements */
+ 
+* {margin: 0; padding: 0;}
+
+/*remove link outlines*/
+a {
+   outline: none;
+}
+	a:link {
+	color: #FFF;
+	text-decoration: none;
+}
+	a:active {
+	color: #FFFF33;
+	text-decoration: none;
+}
+	a:visited, a:focus {color: #FFF; text-decoration: none; }
+	a:hover {color: #ffff33; text-decoration: none; }
+
+
+h1,h2,h3,h4,h5,h6 {
+	padding-top:4px;
+	padding-bottom:2px;
+	font-variant: small-caps;
+	text-transform: capitalize;
+	font-weight:bold;
+
+	
+}
+
+h1 {
+	font-size: 100px;
+}
+
+h1,h2,h3,h4,h6 {color:#FFF}
+h4 {text-decoration:none;padding-top:1px;padding-bottom:2px;}
+h2,h3,h5,h6 {font-size: 18px; text-decoration: none; font-weight:normal;padding-top:2px;padding-bottom:2px;}
+h3,h6 {font-size:1em;}
+h5 {color:#a1a4b0;}
+h6 {text-transform:none;font-variant:normal;}
+
+
+#wrapper{
+	width:600px;
+	margin: 70px auto;
+	text-align: center;
+}
+
+#take{
+	margin:auto;
+	text-align: center;
+	font-size: 350px;
+	overflow: hidden;
+	width:580px;
+}
+.red{
+	color:#ffff00;
+}
+
+
+

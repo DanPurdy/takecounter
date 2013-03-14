@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="layout.css" type="text/css" media="screen">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<title>Angel Take Counter</title>
+</head>
+<body>
+	<div id='wrapper'>
+	<div id="label"><h1>Take</h1></div>
+	<div id="take" class="red">1</div>
+	</div>
+
+<script>
+(function(){
+
+	var take = parseInt($('#take').text());
+
+	 $(window).keydown(function(event){
+		key = event.keyCode;
+	 switch(key){
+	 	case 13: take+=1;
+	 	break;
+	 	case 8: take-=1;
+	 	break;
+	 	case 32: take = parseInt(prompt("Take?")) || take;
+		break;
+	 };
+
+	 take = (take <=1) ? 1 : take;
+	 take = (take >=999) ? 999 : take;
+	 $('#take').text(take);
+    });
+})();
+</script>
+</body>
+</html>

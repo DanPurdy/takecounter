@@ -22,6 +22,7 @@
 	current=$('#state').text();
 
 	 $(window).keydown(function(event){
+
 		key = event.keyCode;
 	 switch(key){
 	 	case 107: 
@@ -40,7 +41,7 @@
 	 	case 109: take-=1,
 	 				current='Now';
 	 	break;
-	 	case 106: current='Next', 
+	 	case 8: current='Next', 
 	 				take = parseInt(prompt("Take?"))|| take;
 		break;
 		case 102: pass++;
@@ -61,7 +62,9 @@
 		break;
 	 };
 	 pass= (pass <=1) ? 1 : pass;
+	 pass= (pass >99) ? 99 : pass;
 	 take = (take <=1) ? 1 : take;
+	 take = (take >999) ? 999 : take;
 	 if (current=='Now'){ 
 	 	$('#state').text(current).removeClass('next').addClass('now') 
 	 }else{

@@ -1,16 +1,25 @@
+
+@font-face {
+    font-family: Roboto;
+    src: url(fonts/Roboto-Bold.ttf);
+    font-weight:700;
+}
+
+
 /* =====LAYOUT=======*/
 
 html {
-	background-color:#000000;
+	background-color:#838284;
 	color:#ffffff;
+	font-size: 62.5%;
 	}
 
 body {
 	margin: 0;
   	padding: 0;
-	font: 12px arial;
+	font: 1em Roboto;
+	font-weight: 700;
 	color:#a1a4b0;
-	background-color: #000000;
 
 	
 	}
@@ -35,69 +44,96 @@ a {
 	a:hover {color: #ffff33; text-decoration: none; }
 
 
-h1,h2,h3,h4,h5,h6 {
+h1 {
 	padding-top:4px;
 	padding-bottom:2px;
 	font-variant: small-caps;
 	text-transform: capitalize;
-	font-weight:bold;	
+	font-weight:400;	
+	font-size: 8em;
 }
-
-h1 {
-	font-size: 80px;
-}
-
-h1,h2,h3,h4,h6 {color:#FFF}
-h4 {text-decoration:none;padding-top:1px;padding-bottom:2px;}
-h2,h3,h5,h6 {font-size: 18px; text-decoration: none; font-weight:normal;padding-top:2px;padding-bottom:2px;}
-h3,h6 {font-size:1em;}
-h5 {color:#a1a4b0;}
-h6 {text-transform:none;font-variant:normal;}
-
 
 #wrapper{
-	width:600px;
-	margin: 10px auto;
+	width:65%;
+	position:relative;
+	margin: 10% auto;
 	text-align: center;
-}
-#label{
-	float:left;
 }
 
-#take, #pass{
+.col{
 	float:left;
+	width:50%;
 	text-align: center;
-	overflow: hidden;
+	font-weight:400;
+
 }
+
+.col #label{
+	background-color: #000;
+	color:#fff;
+	border:3px solid #fff;
+}
+
+#take {
+	background-color: #ffff00;
+	color:#000;
+	border:3px solid #000;
+}
+
 #pass{
-	color:#ffffff;
-}
-
-#take, #pass, #label{
-	width:300px;
+	background-color:#fff;
+	color:#000; 
+	border:3px solid #000;
 }
 #take, #pass{
-	font-size: 180px;
+
+	text-align: center;
+	font-size: 25em;
+	letter-spacing: -20px;
 }
+
+
 
 
 #state{
-	font-size: 70px;
+	color:#000;
+	font-size: 10.5em;
 	clear:both;
+	border:3px solid #000;
+
 }
-.yellow, .yellow h1{
+.yellow{
 	color: #ffff00;
 } 
 
 .now{
-	color:#ff0000;
+	background-color:#ff0000;
 }
 
 .next{
-	color:#00FF00;
+	background-color:#00ff00;
 }
 
+@media (min-width: 300px) {
+    html { font-size: 10%; }
+    #take, #pass{letter-spacing: -2px;}
+}
 
+@media (min-width: 500px) {
+    html { font-size: 20%; }
+    #take, #pass{letter-spacing: -2px;}
+}
+
+@media (min-width: 700px) {
+    html { font-size: 40%; }
+    #take, #pass{letter-spacing: -15px;}
+}
+@media (min-width: 900px) {
+    html { font-size: 50%; }
+}
+@media (min-width: 1199px) {
+    html { font-size: 62.5%; }
+}
 
 
 

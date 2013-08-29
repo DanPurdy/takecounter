@@ -50,6 +50,7 @@
 		showPass =function(){
 			passVis=true;
 			limit=999;
+			
 			$(passDiv).removeClass('hidden');
 			$(takeDiv).css({width : '50%'});
 		};

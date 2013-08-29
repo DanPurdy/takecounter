@@ -7,12 +7,12 @@
 </head>
 <body>
 	<div id='wrapper'>
-	<div class="col">
+	<div class="col pass-count">
 		<div id="label"><h1>Pass #</h1></div>
 		<div id="pass">1</div>
 	</div>
 
-	<div class="col">
+	<div class="col take-count">
 		<div id="label"><h1>Take #</h1></div>
 		
 		<div id="take">1</div>
@@ -20,68 +20,6 @@
 	<div id="state" class="next">Next</div>
 	</div>
 
-<script>
-(function(){
-
-	var take = parseInt($('#take').text()),
-	pass=parseInt($('#pass').text()),
-	current=$('#state').text();
-
-	 $(window).keydown(function(event){
-
-		key = event.keyCode;
-
-		console.log(key);
-	 switch(key){
-	 	case 107: 
-	 		if(take <999){
-	 				if(current=='Now'){ 
-	 					current='Next', 
-	 					take++ ;
-	 				}else{ 
-	 					current='Now';
-
-	 				};
-	 		}else if(take ==999 && current !='Now'){
-	 			current='Now';
-	 	};
-	 	break;
-	 	case 109: take-=1,
-	 				current='Now';
-	 	break;
-	 	case 8: current='Next', 
-	 				take = parseInt(prompt("Take?"))|| take;
-		break;
-		case 102: pass++;
-		break;
-		case 105: pass--;
-		break;
-		case 103: pass++,
-				take=1,
-				current='Next';
-		break;
-		case 110: var answer=confirm('Reset?')
-					if (answer==true){
-						pass = 1,
-						take = 1,
-						current='Next';
-					};
-
-		break;
-	 };
-	 pass= (pass <=1) ? 1 : pass;
-	 pass= (pass >99) ? 99 : pass;
-	 take = (take <=1) ? 1 : take;
-	 take = (take >999) ? 999 : take;
-	 if (current=='Now'){ 
-	 	$('#state').text(current).removeClass('next').addClass('now') 
-	 }else{
-	 	$('#state').text(current).removeClass('now').addClass('next')
-	 }
-	 $('#take').text(take);
-	 $('#pass').text(pass);
-    });
-})();
-</script>
+<script src="scripts.js" type="text/javascript"></script>
 </body>
 </html>

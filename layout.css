@@ -125,8 +125,8 @@ h1 {
 }
 
 @media (min-width: 700px) {
-    html { font-size: 38%; }
-    #take, #pass{letter-spacing: -15px;}
+    html { font-size: 35%; }
+    #take, #pass{letter-spacing: -13px;}
 }
 @media (min-width: 900px) {
     html { font-size: 50%; }

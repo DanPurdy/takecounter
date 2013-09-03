@@ -11,6 +11,7 @@ The limits can easily be changed, I just selected these limits to meet the balan
 I personally use this off of a Raspberry Pi with a usb numpad attached either via the video out or the hdmi out.
 Responsive design so it should adjust to different resolutions correctly depending on your setup.
 
+A woking demo can be found at www.danpurdy.co.uk/demo/takecounter
 
 Currently set to work with a numpad.
 
@@ -19,4 +20,6 @@ Controls can be seen in **controls.txt**
 To edit the controls just edit the defaults within the scripts file by adding the correct key code. 
 
 Customisable controls may be added as a feature in the future if requested.
+
+
 

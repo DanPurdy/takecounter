@@ -19,29 +19,34 @@
 
 
 		return this.each(function(){
-			target=$(this);
+			
+			$target=$(this);
 			
 			//initialize variables and selectors
 			var take = 1,
 				pass= 1,
 				limit=999,
-				current='Next',
-				state = $('#state'),
 				passVis=true,
-				passDiv = $('.pass-count'),
-				takeDiv = $('.take-count');
 
-			//sets state of counter to Now (indicates current take is recording)
-		 	function stateNow(){
+				$state = $target.find('#state'),
+				current = $state.text('Next'),
+				
+				$passBox = $target.find('.pass-count'),
+				$takeBox = $target.find('.take-count'),
+				$passDiv = $target.find('#pass'),
+				$takeDiv = $target.find('#take');
+
+			//sets $state of counter to Now (indicates current take is recording)
+			function stateNow(){
 				current='Now';
-				$(state).text(current).removeClass('next').addClass('now');
+				$($state).text(current).removeClass('next').addClass('now');
 				
 			}
 
-			//sets state of counter to Next (indicates next take is ready)
+			//sets $state of counter to Next (indicates next take is ready)
 			function stateNext(){
 				current='Next';
-				$(state).text(current).removeClass('now').addClass('next');
+				$state.text(current).removeClass('now').addClass('next');
 				
 			}
 
@@ -49,8 +54,8 @@
 			function hidePass(){
 				passVis=false;
 				limit=99999;
-				$(passDiv).addClass('hidden');
-				$(takeDiv).css({width : '100%'});
+				$passBox.addClass('hidden');
+				$takeBox.css({width : '100%'});
 			}
 
 			//allows the pass feature to be enabled again meaning both takes and pass's being used
@@ -58,12 +63,12 @@
 				passVis=true;
 				limit=999;
 				
-				$(passDiv).removeClass('hidden');
-				$(takeDiv).css({width : '50%'});
+				$passBox.removeClass('hidden');
+				$takeBox.css({width : '50%'});
 			}
 
 			//on a keydown event pass the event to a function
-			$(target).keydown(function(event){
+			$(window).keydown(function(event){
 				//store the current keycode (key that's been pressed)
 				key = event.keyCode;
 				
@@ -122,7 +127,7 @@
 					break;
 
 				case defaults.togglePass:      //Toggle whether pass is visible/needed if hidden none of the pass features work
-					if($(passDiv).hasClass('hidden')){
+					if($passBox.hasClass('hidden')){
 						showPass();
 						
 					}else{
@@ -156,8 +161,8 @@
 					break;
 				}
 
-				$('#take').text(take); //set the take value on screen
-				$('#pass').text(pass); //set the pass value on screen
+				$takeDiv.text(take); //set the take value on screen
+				$passDiv.text(pass); //set the pass value on screen
 			});
 
 		});

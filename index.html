@@ -7,23 +7,28 @@
 </head>
 <body>
 	<div id='wrapper'>
-	<div class="col pass-count">
-		<div id="label"><h1>Pass #</h1></div>
-		<div id="pass">1</div>
-	</div>
+		<div id="counter">
+			<div class="col pass-count">
+				<div id="label"><h1>Pass #</h1></div>
+				<div id="pass">1</div>
+			</div>
 
-	<div class="col take-count">
-		<div id="label"><h1>Take #</h1></div>
+			<div class="col take-count">
+				<div id="label"><h1>Take #</h1></div>
+				
+				<div id="take">1</div>
+			</div>
+			<div id="state" class="next"></div>
+		</div>
 		
-		<div id="take">1</div>
-	</div>
-	<div id="state" class="next">Next</div>
 	</div>
 
 <script src="takeCount.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
-		$(window).takeCounter();
+		
+		$('#counter').takeCounter();
+
 	});
 </script>
 </body>

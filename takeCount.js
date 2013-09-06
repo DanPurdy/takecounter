@@ -36,10 +36,11 @@
 				$passDiv = $target.find('#pass'),
 				$takeDiv = $target.find('#take');
 
+				console.log($passBox);
 			//sets $state of counter to Now (indicates current take is recording)
 			function stateNow(){
 				current='Now';
-				$($state).text(current).removeClass('next').addClass('now');
+				$state.text(current).removeClass('next').addClass('now');
 				
 			}
 
@@ -77,7 +78,6 @@
 
 				case defaults.takeUp:       //increments take
 
-				
 					if(take <limit){
 
 						if(current=='Now'){
@@ -94,17 +94,17 @@
 						stateNow();
 
 					}
-				
 					
-
-					break;
+				break;
 
 				case defaults.takeDown:      //decrement take
+					
 					if(take>1){
 						take-=1;
 						stateNow();
 					}
-					break;
+
+				break;
 
 				case defaults.takeSel:      //prompt user for take number 
 					
@@ -117,14 +117,14 @@
 						take=1;
 					}
 
-
-					break;
+				break;
 
 				case defaults.passUp:       //increment pass
 					if(passVis===true){
 						pass++;
 					}
-					break;
+
+				break;
 
 				case defaults.togglePass:      //Toggle whether pass is visible/needed if hidden none of the pass features work
 					if($passBox.hasClass('hidden')){
@@ -133,13 +133,15 @@
 					}else{
 						hidePass();
 					}
-					break;
+
+				break;
 
 				case defaults.passDown:      //decrement pass
 					if(passVis===true && pass >1){
 						pass--;
 					}
-					break;
+
+				break;
 
 				case defaults.passNewInit:    //Increment pass and reset take (new pass default)
 					if(passVis===true && pass <=999){
@@ -148,7 +150,7 @@
 						
 						stateNext();
 					}
-					break;
+				break;
 				
 				case defaults.countReset:      //Reset the take counter to default (user has to acknowledge)
 					var answer=confirm('Reset?');
@@ -158,7 +160,7 @@
 						stateNext();
 					}
 
-					break;
+				break;
 				}
 
 				$takeDiv.text(take); //set the take value on screen

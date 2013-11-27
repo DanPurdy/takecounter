@@ -36,7 +36,6 @@
 				$passDiv = $target.find('#pass'),
 				$takeDiv = $target.find('#take');
 
-				console.log($passBox);
 			//sets $state of counter to Now (indicates current take is recording)
 			function stateNow(){
 				current='Now';

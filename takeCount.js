@@ -39,7 +39,7 @@
 
 			//sets $state of counter to Now (indicates current take is recording)
 			function stateNow(){
-				current='Now';
+				current='Current';
 				$state.text(current).removeClass('next').addClass('now');
 				
 			}
@@ -61,17 +61,36 @@
 
 			//allows the pass feature to be enabled again meaning both takes and pass's being used
 			function showPass(){
-				passVis=true;
-				limit=999;
-				
-				$passBox.removeClass('hidden');
-				$takeBox.css({width : '50%'});
+
+				if(take > 999){
+					if(confirm('Take number will be limited to 999. Do you wish to continue?')){
+						
+						passVis=true;
+						limit=999;
+						$passBox.removeClass('hidden');
+						$takeBox.css({width : '50%'});
+						take = 999;
+
+					}
+				}else{
+
+					passVis=true;
+					limit=999;
+					$passBox.removeClass('hidden');
+					$takeBox.css({width : '50%'});
+					
+				}
 			}
 
 			function storePass(passPos){
-				if(current === 'Now'){
-					history[passPos-1]=take+1;
-				}else{
+
+				if(current === 'Current'){
+					if(take < 999){
+						history[passPos-1]=take+1;
+					}else{
+						history[passPos-1]=take;
+					}
+				}else if(take > 1){
 					history[passPos-1]=take;
 				}
 				stateNext();
@@ -102,7 +121,7 @@
 
 					if(take <limit){
 
-						if(current=='Now'){
+						if(current=='Current'){
 							take++;
 							stateNext();
 
@@ -112,7 +131,7 @@
 
 						}
 
-					}else if(take ==limit && current !='Now'){
+					}else if(take ==limit && current !='Current'){
 						stateNow();
 
 					}

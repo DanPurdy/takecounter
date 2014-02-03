@@ -4,9 +4,7 @@
 JQuery based takecounter for use in a Recording studio environment, or indeed anywhere requiring a take counter!
 
 Incorporates takes and passes (currently restricted to 999 of each in that configuration).
-Also incorporates a take only mode (no passes and full width. Take limit is 999999 in this config)
-
-The limits can easily be changed, I just selected these limits to meet the balance between useful font size and space used.
+Also incorporates a take only mode (no passes and full width. Take limit is 999999 in this config). If you switch back to pass & take mode with your take above 999 you will be asked to confirm your intentions and if you accept your take number will immediately revert to 999 with no way to restore the original large take number. I would like to think no one will ever go above 999 takes but you never know!
 
 I personally use this off of a Raspberry Pi with a usb numpad attached either via the video out or the hdmi out.
 

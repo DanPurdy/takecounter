@@ -68,6 +68,28 @@
 				$takeBox.css({width : '50%'});
 			}
 
+			function storePass(passPos){
+				if(current === 'Now'){
+					history[passPos-1]=take+1;
+				}else{
+					history[passPos-1]=take;
+				}
+				stateNext();
+			}
+
+			function loadPass(passPos){
+
+				take = history[passPos-1];
+
+				if(take === undefined){ take=1;}
+			}
+
+			function emptyPass(){
+
+				pass = history.length+1;
+			
+			}
+
 			//on a keydown event pass the event to a function
 			$(window).keydown(function(event){
 				//store the current keycode (key that's been pressed)
@@ -121,7 +143,9 @@
 
 				case defaults.passUp:       //increment pass
 					if(passVis===true){
+						storePass(pass);
 						pass++;
+						loadPass(pass);
 					}
 
 				break;
@@ -138,14 +162,17 @@
 
 				case defaults.passDown:      //decrement pass
 					if(passVis===true && pass >1){
+						storePass(pass);
 						pass--;
+						loadPass(pass);
 					}
 
 				break;
 
 				case defaults.passNewInit:    //Increment pass and reset take (new pass default)
 					if(passVis===true && pass <=999){
-						pass++;
+						storePass(pass);
+						emptyPass();
 						take=1;
 						
 						stateNext();
@@ -157,6 +184,7 @@
 					if (answer===true){
 						pass = 1;
 						take = 1;
+						history.length = 0;
 						stateNext();
 					}
 

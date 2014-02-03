@@ -25,6 +25,7 @@
 			//initialize variables and selectors
 			var take = 1,
 				pass= 1,
+				history = [],
 				limit=999,
 				passVis=true,
 

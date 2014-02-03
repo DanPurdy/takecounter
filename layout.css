@@ -12,6 +12,7 @@ html {
 	background-color:#000;
 	color:#ffffff;
 	font-size: 62.5%;
+	height:100%;
 	}
 
 body {
@@ -20,7 +21,7 @@ body {
 	font: 1em Roboto;
 	font-weight: 700;
 	color:#a1a4b0;
-
+	height:100%;
 	
 	}
 	
@@ -57,9 +58,17 @@ h1 {
 }
 #wrapper{
 	width:65%;
-	position:relative;
-	margin: 10% auto;
 	text-align: center;
+	margin: 0 auto;
+	height:100%;
+}
+
+#counter{
+	position:relative;
+	top:50%;
+	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 
 .col{

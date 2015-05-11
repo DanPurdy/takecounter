@@ -8,7 +8,7 @@ Also incorporates a take only mode (no passes and full width. Take limit is 9999
 
 I personally use this off of a Raspberry Pi with a usb numpad attached either via the video out or the hdmi out.
 
-A woking demo can be found at www.danpurdy.co.uk/demo/takecounter
+A woking demo can be found at https://dpurdy.me/plugins/takecounter/
 
 Responsive design so it should adjust to different resolutions correctly depending on your setup.
 
@@ -31,7 +31,7 @@ takeCounter({
 	countReset : 110, //period key (.)
 });
 ```
-For a basic list of keyboard keycodes please see here www.webonweboff.com/tips/js/event_key_codes.aspx
+For a basic list of keyboard keycodes please see here http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 
 
 

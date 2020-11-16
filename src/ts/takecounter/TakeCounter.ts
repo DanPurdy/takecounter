@@ -106,13 +106,17 @@ export default class TakeCounter {
   }
 
   decrementTake() {
-    this.takes.decrementCount();
-    this.message.setCurrentMessage();
+    // TODO legacy mode
+    if (this.message.current === StateMessage.CURRENT) {
+      this.message.setNextMessage();
+    } else {
+      this.takes.decrementCount();
+    }
   }
 
   selectTake() {
     // TODO replace with UI
-    this.takes.set(parseInt(prompt('Take?'), 10));
+    this.takes.set(Math.max(Math.min(parseInt(prompt('Take?'), 10), 9999), 1));
   }
 
   incrementPass() {

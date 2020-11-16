@@ -1,0 +1,16 @@
+.take-counter {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__section {
+    width: 25%;
+
+    &--prominent {
+      width: 75%;
+    }
+
+    &--full {
+      min-width: 100%;
+    }
+  }
+}

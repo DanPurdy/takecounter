@@ -1,21 +1,23 @@
-import ContainerHandler, {
-  ContainerStatus,
-} from './components/ContainerHandler';
+import ContainerHandler from './components/ContainerHandler';
 import ElementHandler from './components/ElementHandler';
 import Counter from './components/Counter';
 import MessageHandler, { StateMessage } from './components/MessageHandler';
 
+interface TakeCounterControls {
+  incrementTake?: string;
+  decrementTake?: string;
+  selectTake?: string;
+  incrementPass?: string;
+  decrementPass?: string;
+  intiateNewPass?: string;
+  togglePassVisible?: string;
+  resetAndClear?: string;
+}
+
 interface TakeCounterOptions {
-  controls: {
-    incrementTake?: string;
-    decrementTake?: string;
-    selectTake?: string;
-    incrementPass?: string;
-    decrementPass?: string;
-    intiateNewPass?: string;
-    togglePassVisible?: string;
-    resetAndClear?: string;
-  };
+  controls?: TakeCounterControls;
+  hidePassOnStartup?: boolean;
+  resetTakeOnNewPass?: boolean;
 }
 
 export default class TakeCounter {
@@ -38,15 +40,8 @@ export default class TakeCounter {
     },
     options: TakeCounterOptions = { controls: {} },
   ) {
-    this.passContainer = new ContainerHandler(elements.passContainer);
-    this.takeContainer = new ContainerHandler(elements.takeContainer);
-    this.passElement = new ElementHandler(elements.passElement);
-    this.takeElement = new ElementHandler(elements.takeElement);
-    this.message = new MessageHandler(StateMessage.NEXT, elements.stateElement);
-
-    this.take = 1;
-    this.pass = 1;
     this.options = {
+      resetTakeOnNewPass: false,
       ...options,
       controls: {
         incrementTake: 'NumpadAdd',
@@ -60,24 +55,31 @@ export default class TakeCounter {
         ...options.controls,
       },
     };
-    this.passes = new Counter(this.take);
-    this.takes = new Counter(this.take);
-    this.initialiseHandlers(this.options);
+    this.passContainer = new ContainerHandler(
+      elements.passContainer,
+      !!this?.options?.hidePassOnStartup,
+    );
+    this.takeContainer = new ContainerHandler(elements.takeContainer);
+    this.message = new MessageHandler(StateMessage.NEXT, elements.stateElement);
+    this.passes = new Counter(1, elements.passElement);
+    this.takes = new Counter(1, elements.takeElement);
+
+    this.initialiseHandlers(this.options.controls);
   }
 
-  set take(value: number) {
-    this.takeElement.set(value);
+  get take() {
+    return this?.takes?.count || 1;
   }
 
-  set pass(value: number) {
-    this.passElement.set(value);
+  get pass() {
+    return this?.passes?.count || 1;
   }
 
-  initialiseHandlers(options: TakeCounterOptions) {
+  initialiseHandlers(controls: TakeCounterControls) {
     try {
       window.onkeydown = (event: KeyboardEvent) => {
-        const registeredKey = Object.keys(options).find(
-          (key) => options[key] === event.code,
+        const registeredKey = Object.keys(controls).find(
+          (key) => controls[key] === event.code,
         );
 
         if (registeredKey) {
@@ -89,23 +91,36 @@ export default class TakeCounter {
     }
   }
 
-  incrementTake() {
-    this.take = this.takes.incrementCount();
+  resetTake() {
+    this.takes.reset();
     this.message.setNextMessage();
   }
 
+  incrementTake() {
+    if (this.message.current === StateMessage.CURRENT) {
+      this.takes.incrementCount();
+      this.message.setNextMessage();
+    } else {
+      this.message.setCurrentMessage();
+    }
+  }
+
   decrementTake() {
-    this.take = this.takes.decrementCount();
+    this.takes.decrementCount();
     this.message.setCurrentMessage();
   }
 
   selectTake() {
-    this.takes.count = parseInt(prompt('Take?'), 10) || this.takes.count;
+    // TODO replace with UI
+    this.takes.set(parseInt(prompt('Take?'), 10));
   }
 
   incrementPass() {
     this.passes.incrementCount();
-    this.message.setNextMessage();
+
+    if (this.options.resetTakeOnNewPass) {
+      this.resetTake();
+    }
   }
 
   decrementPass() {
@@ -115,16 +130,14 @@ export default class TakeCounter {
 
   intiateNewPass() {
     this.passes.incrementCount();
-    this.takes.reset();
-    this.message.setNextMessage();
+
+    if (this.options.resetTakeOnNewPass) {
+      this.resetTake();
+    }
   }
 
   togglePassVisible() {
-    if (this.passContainer.status === ContainerStatus.HIDDEN) {
-      this.passContainer.show();
-    } else {
-      this.passContainer.hide();
-    }
+    this.passContainer.toggle();
   }
 
   resetAndClear() {

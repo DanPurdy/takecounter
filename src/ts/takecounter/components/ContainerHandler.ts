@@ -6,25 +6,39 @@ export enum ContainerStatus {
 }
 
 export default class ContainerHandler {
-  container: HTMLElement;
-  status: ContainerStatus;
+  private _container: HTMLElement;
+  private _status: ContainerStatus;
 
-  constructor(container: HTMLElement) {
-    this.container = container;
-    this.status = ContainerStatus.VISIBLE;
+  constructor(container: HTMLElement, hideOnStart: boolean = false) {
+    this._container = container;
+    this._status = hideOnStart
+      ? ContainerStatus.HIDDEN
+      : ContainerStatus.VISIBLE;
+
+    if (this._status === ContainerStatus.HIDDEN) {
+      this.hide();
+    }
+  }
+
+  get isVisible() {
+    return this._status === ContainerStatus.VISIBLE;
+  }
+
+  toggle() {
+    this._status === ContainerStatus.VISIBLE ? this.hide() : this.show();
   }
 
   hide() {
-    if (!this.container.classList.contains(HIDDEN_CLASS)) {
-      this.container.classList.add(HIDDEN_CLASS);
-      this.status = ContainerStatus.HIDDEN;
+    if (!this._container.classList.contains(HIDDEN_CLASS)) {
+      this._container.classList.add(HIDDEN_CLASS);
+      this._status = ContainerStatus.HIDDEN;
     }
   }
 
   show() {
-    if (this.container.classList.contains(HIDDEN_CLASS)) {
-      this.container.classList.remove(HIDDEN_CLASS);
-      this.status = ContainerStatus.VISIBLE;
+    if (this._container.classList.contains(HIDDEN_CLASS)) {
+      this._container.classList.remove(HIDDEN_CLASS);
+      this._status = ContainerStatus.VISIBLE;
     }
   }
 }

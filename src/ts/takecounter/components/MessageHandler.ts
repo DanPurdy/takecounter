@@ -4,15 +4,21 @@ export enum StateMessage {
 }
 
 export default class MessageHandler {
-  element: HTMLElement;
+  private _element: HTMLElement;
+  private message: StateMessage;
 
   constructor(stateMessage: StateMessage, stateMessageElement: HTMLElement) {
-    this.element = stateMessageElement;
+    this._element = stateMessageElement;
     this.stateMessage = stateMessage || StateMessage.NEXT;
   }
 
   set stateMessage(message: StateMessage) {
-    this.element.innerHTML = message;
+    this.message = message;
+    this._element.innerHTML = message;
+  }
+
+  get current() {
+    return this.message;
   }
 
   setNextMessage() {

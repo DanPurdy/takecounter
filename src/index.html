@@ -1,24 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./fonts/heebo-v9-latin-regular.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./fonts/heebo-v9-latin-700.woff2"
+      crossorigin
+    />
+    <link rel="preload" href="./scss/main.scss" as="style" />
+    <link rel="preload" href="./ts/index.ts" as="script" />
     <link rel="stylesheet" href="./scss/main.scss" type="text/css" />
     <title>Take Counter</title>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="counter">
-        <div class="js-pass-container">
-          <div class="label"><h1>Pass</h1></div>
-          <div class="js-pass-elem">1</div>
+    <main class="wrapper">
+      <div class="take-counter">
+        <div class="take-counter__section">
+          <section class="count-section" data-tag="pass-container">
+            <div class="count-section__label">Pass</div>
+            <div class="count-section__element" data-tag="pass-element" />
+          </section>
         </div>
-
-        <div class="js-take-container">
-          <div class="label"><h1>Take</h1></div>
-          <div class="js-take-elem">1</div>
+        <div class="take-counter__section take-counter__section--prominent">
+          <section class="count-section" data-tag="take-container">
+            <div class="count-section__label">Take</div>
+            <div class="count-section__element" data-tag="take-element" />
+          </section>
         </div>
-        <div class="js-state-message"></div>
+        <div class="take-counter__section take-counter__section--full">
+          <section class="state-section" data-tag="state-message" />
+        </div>
       </div>
-    </div>
+    </main>
 
     <script src="./ts/index.ts"></script>
   </body>

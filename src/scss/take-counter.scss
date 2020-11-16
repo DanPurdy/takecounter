@@ -1,16 +1,26 @@
 .take-counter {
   display: flex;
   flex-wrap: wrap;
+  height: 100vh;
 
   &__section {
-    width: 25%;
+    flex: 1 1 45%;
+    height: 80vh;
 
     &--prominent {
-      width: 75%;
+      flex: 1 1 55%;
     }
 
     &--full {
-      min-width: 100%;
+      flex-basis: 100%;
+    }
+
+    &--bottom {
+      height: 20vh;
+    }
+
+    &--hidden {
+      display: none;
     }
   }
 }

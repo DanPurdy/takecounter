@@ -9,6 +9,6 @@ const app = new TakeCounter(
     stateElement: document.querySelector('[data-tag="state-message"]'),
   },
   {
-    hidePassOnStartup: false,
+    hidePassOnStartup: true,
   },
 );

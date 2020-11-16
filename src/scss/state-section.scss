@@ -1,3 +1,19 @@
+@import 'variables';
+
 .state-section {
   text-align: center;
+  background-color: $state-message-background-next;
+  height: 100%;
+  font-size: 15rem;
+  font-weight: 700;
+  margin: 1rem 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  text-transform: uppercase;
+
+  &--active {
+    background-color: $state-message-background-active;
+  }
 }

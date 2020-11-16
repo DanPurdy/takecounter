@@ -1,4 +1,4 @@
-const HIDDEN_CLASS = 'hidden';
+const HIDDEN_CLASS = 'take-counter__section--hidden';
 
 export enum ContainerStatus {
   HIDDEN,

@@ -27,7 +27,6 @@ body {
   padding: 0;
   font-family: 'Heebo';
   font-weight: 400;
-  color: #a1a4b0;
   height: 100%;
 }
 
@@ -41,5 +40,5 @@ body {
 }
 
 @import 'take-counter';
-@import 'counter-section';
+@import 'count-section';
 @import 'state-section';

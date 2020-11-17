@@ -143,7 +143,7 @@ export default class TakeCounter {
   }
 
   selectTake() {
-    // TODO replace with UI
+    // TODO replace with custom UI
     this.takes.set(parseInt(prompt('Take?'), 10));
   }
 
@@ -172,8 +172,11 @@ export default class TakeCounter {
   }
 
   resetAndClear() {
-    this.takes.reset();
-    this.passes.reset();
-    this.message.setNextMessage();
+    // TODO replace with custom UI
+    if (confirm('Reset?')) {
+      this.takes.reset();
+      this.passes.reset();
+      this.message.setNextMessage();
+    }
   }
 }

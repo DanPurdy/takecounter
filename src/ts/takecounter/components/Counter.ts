@@ -3,11 +3,12 @@ import ElementHandler from './ElementHandler';
 export default class Counter {
   private _elementHandler: ElementHandler;
   private _count: number;
+  private _maxCount: number;
 
-  constructor(count: number, element: HTMLElement) {
+  constructor(element: HTMLElement, count: number = 1, maxCount: number = 999) {
     this._elementHandler = new ElementHandler(element);
-    this._count = count || 0;
-    this.updateElement();
+    this._maxCount = maxCount;
+    this.set(count);
   }
 
   // Make read only
@@ -20,22 +21,20 @@ export default class Counter {
   }
 
   incrementCount(): number {
-    this._count += 1;
-    this.updateElement();
+    this.set(this._count + 1);
 
     return this._count;
   }
 
   decrementCount(): number {
-    this._count > 1 ? (this._count -= 1) : 1;
-    this.updateElement();
+    this.set(this._count - 1);
 
     return this._count;
   }
 
   set(value: number): number {
     if (value) {
-      this._count = Math.round(value);
+      this._count = Math.min(Math.max(Math.round(value), 1), this._maxCount);
       this.updateElement();
     }
 

@@ -17,6 +17,10 @@ interface TakeCounterControls {
 interface TakeCounterOptions {
   controls?: TakeCounterControls;
   hidePassOnStartup?: boolean;
+  initialPass?: number;
+  initialTake?: number;
+  maxPassCount?: number;
+  maxTakeCount?: number;
   resetTakeOnNewPass?: boolean;
 }
 
@@ -40,7 +44,42 @@ export default class TakeCounter {
     },
     options: TakeCounterOptions = { controls: {} },
   ) {
-    this.options = {
+    this.options = this._initOptions(options);
+    this.passContainer = new ContainerHandler(
+      elements.passContainer,
+      !!this?.options?.hidePassOnStartup,
+    );
+    this.takeContainer = new ContainerHandler(elements.takeContainer);
+    this.message = new MessageHandler(StateMessage.NEXT, elements.stateElement);
+    this.passes = new Counter(
+      elements.passElement,
+      this.options.initialPass,
+      this.options.maxPassCount,
+    );
+    this.takes = new Counter(
+      elements.takeElement,
+      this.options.initialTake,
+      this.options.maxTakeCount,
+    );
+
+    this._initialiseHandlers(this.options.controls);
+  }
+
+  get take() {
+    return this?.takes?.count || 1;
+  }
+
+  get pass() {
+    return this?.passes?.count || 1;
+  }
+
+  private _initOptions(options: TakeCounterOptions) {
+    return {
+      hidePassOnStartup: false,
+      initialPass: 1,
+      initialTake: 1,
+      maxPassCount: 999,
+      maxTakeCount: 9999,
       resetTakeOnNewPass: false,
       ...options,
       controls: {
@@ -55,27 +94,9 @@ export default class TakeCounter {
         ...options.controls,
       },
     };
-    this.passContainer = new ContainerHandler(
-      elements.passContainer,
-      !!this?.options?.hidePassOnStartup,
-    );
-    this.takeContainer = new ContainerHandler(elements.takeContainer);
-    this.message = new MessageHandler(StateMessage.NEXT, elements.stateElement);
-    this.passes = new Counter(1, elements.passElement);
-    this.takes = new Counter(1, elements.takeElement);
-
-    this.initialiseHandlers(this.options.controls);
   }
 
-  get take() {
-    return this?.takes?.count || 1;
-  }
-
-  get pass() {
-    return this?.passes?.count || 1;
-  }
-
-  initialiseHandlers(controls: TakeCounterControls) {
+  private _initialiseHandlers(controls: TakeCounterControls) {
     try {
       window.onkeydown = (event: KeyboardEvent) => {
         const registeredKey = Object.keys(controls).find(
@@ -97,6 +118,13 @@ export default class TakeCounter {
   }
 
   incrementTake() {
+    if (
+      this.takes.count === this.options.maxTakeCount &&
+      this.message.current === StateMessage.CURRENT
+    ) {
+      return;
+    }
+
     if (this.message.current === StateMessage.CURRENT) {
       this.takes.incrementCount();
       this.message.setNextMessage();
@@ -116,7 +144,7 @@ export default class TakeCounter {
 
   selectTake() {
     // TODO replace with UI
-    this.takes.set(Math.max(Math.min(parseInt(prompt('Take?'), 10), 9999), 1));
+    this.takes.set(parseInt(prompt('Take?'), 10));
   }
 
   incrementPass() {
@@ -129,7 +157,6 @@ export default class TakeCounter {
 
   decrementPass() {
     this.passes.decrementCount();
-    this.message.setCurrentMessage();
   }
 
   intiateNewPass() {

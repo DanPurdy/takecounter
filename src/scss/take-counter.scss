@@ -2,17 +2,21 @@
   display: flex;
   flex-wrap: wrap;
   height: 100vh;
+  overflow: hidden;
 
   &__section {
-    flex: 1 1 45%;
+    flex: 0 1 45%;
+    max-width: 45%;
     height: 80vh;
 
     &--prominent {
       flex: 1 1 55%;
+      max-width: none;
     }
 
     &--full {
       flex-basis: 100%;
+      max-width: 100%;
     }
 
     &--bottom {

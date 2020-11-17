@@ -3,16 +3,18 @@
   font-family: 'Heebo';
   font-style: normal;
   font-weight: 400;
-  src: local(''), url('../fonts/heebo-v9-latin-regular.woff2') format('woff2'),
-    url('../fonts/heebo-v9-latin-regular.woff') format('woff');
+  src: local(''),
+    url('../static/fonts/heebo-v9-latin-regular.woff2') format('woff2'),
+    url('../static/fonts/heebo-v9-latin-regular.woff') format('woff');
 }
 /* heebo-700 - latin */
 @font-face {
   font-family: 'Heebo';
   font-style: normal;
   font-weight: 700;
-  src: local(''), url('../fonts/heebo-v9-latin-700.woff2') format('woff2'),
-    url('../fonts/heebo-v9-latin-700.woff') format('woff');
+  src: local(''),
+    url('../static/fonts/heebo-v9-latin-700.woff2') format('woff2'),
+    url('../static/fonts/heebo-v9-latin-700.woff') format('woff');
 }
 
 html {

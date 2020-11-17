@@ -1,7 +1,6 @@
 {
   "name": "Takecounter",
   "short_name": "Takecounter",
-  "start_url": "https://takecounter.dpurdy.dev",
   "icons": [
     {
       "src": "/static/favicons/android-chrome-192x192.png",

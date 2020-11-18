@@ -10,5 +10,9 @@ const app = new TakeCounter(
   },
   {
     hidePassOnStartup: true,
+    modifiers: {
+      hiddenClassName: 'take-counter__section--hidden',
+      fullWidthClassName: 'take-counter__section--full',
+    },
   },
 );

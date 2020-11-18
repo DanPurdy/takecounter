@@ -9,7 +9,7 @@ export default class MessageHandler {
   private _element: HTMLElement;
   private message: StateMessage;
 
-  constructor(stateMessage: StateMessage, stateMessageElement: HTMLElement) {
+  constructor(stateMessageElement: HTMLElement, stateMessage: StateMessage) {
     this._element = stateMessageElement;
     this.stateMessage = stateMessage || StateMessage.NEXT;
   }

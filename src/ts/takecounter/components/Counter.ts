@@ -3,12 +3,20 @@ import ElementHandler from './ElementHandler';
 export default class Counter {
   private _elementHandler: ElementHandler;
   private _count: number;
+  private _initialCount: number;
   private _maxCount: number;
+  private _minCount: number;
 
-  constructor(element: HTMLElement, count: number = 1, maxCount: number = 999) {
+  constructor(
+    element: HTMLElement,
+    count: number = 1,
+    maxCount: number = 999,
+    minCount: number = 1,
+  ) {
     this._elementHandler = new ElementHandler(element);
     this._maxCount = maxCount;
-    this.set(count);
+    this._minCount = minCount;
+    this._initialCount = this.set(count);
   }
 
   // Make read only
@@ -34,7 +42,10 @@ export default class Counter {
 
   set(value: number): number {
     if (value) {
-      this._count = Math.min(Math.max(Math.round(value), 1), this._maxCount);
+      this._count = Math.min(
+        Math.max(Math.round(value), this._minCount),
+        this._maxCount,
+      );
       this.updateElement();
     }
 
@@ -42,9 +53,6 @@ export default class Counter {
   }
 
   reset(): number {
-    this._count = 1;
-    this.updateElement();
-
-    return this._count;
+    return this.set(this._initialCount);
   }
 }

@@ -1,26 +1,31 @@
 .take-counter {
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
   overflow: hidden;
+  min-width: 400px;
 
   &__section {
     flex: 0 1 45%;
     max-width: 45%;
     height: 80vh;
+    font-size: 24vw;
+    line-height: 1.2;
+    letter-spacing: -1.5vw;
 
     &--prominent {
       flex: 1 1 55%;
-      max-width: none;
+      max-width: 55%;
     }
 
     &--full {
       flex-basis: 100%;
       max-width: 100%;
+      font-size: 36vw;
     }
 
     &--bottom {
       height: 20vh;
+      letter-spacing: normal;
     }
 
     &--hidden {

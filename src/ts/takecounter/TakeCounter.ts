@@ -1,5 +1,3 @@
-/// <reference path="./module.d.ts" />
-
 import ContainerHandler from './components/ContainerHandler';
 import ElementHandler from './components/ElementHandler';
 import Counter from './components/Counter';
@@ -7,14 +5,12 @@ import MessageHandler, { StateMessage } from './components/MessageHandler';
 import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from './const';
 
 export default class TakeCounter {
-  passes: Counter;
-  passContainer: ContainerHandler;
-  passElement: ElementHandler;
-  message: MessageHandler;
-  options: TakeCounterOptions;
-  takeContainer: ContainerHandler;
-  takeElement: ElementHandler;
-  takes: Counter;
+  private _passContainer: ContainerHandler;
+  private _takeContainer: ContainerHandler;
+  private _message: MessageHandler;
+  private _options: TakeCounterOptions;
+  readonly passes: Counter;
+  readonly takes: Counter;
 
   constructor(
     elements: TakeCounterElements,
@@ -33,21 +29,24 @@ export default class TakeCounter {
     } = this._initOptions(options);
 
     // Setup our containers
-    this.passContainer = new ContainerHandler(
+    this._passContainer = new ContainerHandler(
       elements.passContainer,
-      !!this?.options?.hidePassOnStartup,
+      !!this?._options?.hidePassOnStartup,
       false,
       hiddenClassName,
       fullWidthClassName,
     );
-    this.takeContainer = new ContainerHandler(
+    this._takeContainer = new ContainerHandler(
       elements.takeContainer,
       false,
-      this?.options?.hidePassOnStartup, // make default full width if passes are hidden
+      this?._options?.hidePassOnStartup, // make default full width if passes are hidden
       hiddenClassName,
       fullWidthClassName,
     );
-    this.message = new MessageHandler(elements.stateElement, StateMessage.NEXT);
+    this._message = new MessageHandler(
+      elements.stateElement,
+      StateMessage.NEXT,
+    );
 
     // Initialise the pass and take counters
     this.passes = new Counter(
@@ -64,15 +63,15 @@ export default class TakeCounter {
     );
 
     // Setup our controls and initial state
-    this._initialiseHandlers(this.options.controls);
+    this._initialiseHandlers(this._options.controls);
   }
 
   get take() {
-    return this?.takes?.count || this.options.initialTake;
+    return this?.takes?.count || this._options.initialTake;
   }
 
   get pass() {
-    return this?.passes?.count || this.options.initialPass;
+    return this?.passes?.count || this._options.initialPass;
   }
 
   // Ensure all elements are defined and exist in the DOM
@@ -87,7 +86,7 @@ export default class TakeCounter {
   }
 
   private _initOptions(options: TakeCounterOptions): TakeCounterOptions {
-    return (this.options = {
+    return (this._options = {
       hidePassOnStartup: false,
       initialPass: 1,
       initialTake: 1,
@@ -135,31 +134,31 @@ export default class TakeCounter {
   /** Reset the take to the initialTake value and set the state to 'NEXT'  */
   resetTake() {
     this.takes.reset();
-    this.message.setNextMessage();
+    this._message.setNextMessage();
   }
 
   /** Increment the current take count if the current state is 'CURRENT' and set the state to 'NEXT'. If the state is 'NEXT' then enter 'CURRENT' state and do not increment the take */
   incrementTake(): void {
     if (
-      this.takes.count === this.options.maxTakeCount &&
-      this.message.current === StateMessage.CURRENT
+      this.takes.count === this._options.maxTakeCount &&
+      this._message.current === StateMessage.CURRENT
     ) {
       return;
     }
 
-    if (this.message.current === StateMessage.CURRENT) {
+    if (this._message.current === StateMessage.CURRENT) {
       this.takes.incrementCount();
-      this.message.setNextMessage();
+      this._message.setNextMessage();
     } else {
-      this.message.setCurrentMessage();
+      this._message.setCurrentMessage();
     }
   }
 
   /** Decrement the current take count or reset the state message to 'NEXT' if in a 'CURRENT' state */
   decrementTake() {
     // TODO legacy mode
-    if (this.message.current === StateMessage.CURRENT) {
-      this.message.setNextMessage();
+    if (this._message.current === StateMessage.CURRENT) {
+      this._message.setNextMessage();
     } else {
       this.takes.decrementCount();
     }
@@ -171,7 +170,7 @@ export default class TakeCounter {
     this.takes.set(
       parseInt(
         prompt(
-          `Select a take: ${this.options.initialTake} - ${this.options.maxTakeCount}`,
+          `Select a take: ${this._options.initialTake} - ${this._options.maxTakeCount}`,
         ),
         10,
       ),
@@ -180,20 +179,20 @@ export default class TakeCounter {
 
   /** Increment the current pass count only if the pass container is visible */
   incrementPass() {
-    if (!this.passContainer.isVisible) {
+    if (!this._passContainer.isVisible) {
       return;
     }
 
     this.passes.incrementCount();
 
-    if (this.options.resetTakeOnNewPass) {
+    if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
   }
 
   /** Decrement the current pass count */
   decrementPass() {
-    if (!this.passContainer.isVisible) {
+    if (!this._passContainer.isVisible) {
       return;
     }
 
@@ -204,17 +203,17 @@ export default class TakeCounter {
   intiateNewPass() {
     this.passes.incrementCount();
 
-    if (this.options.resetTakeOnNewPass) {
+    if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
   }
 
   /** Toggle whether the pass container should be visible or not. The pass container is a legacy feature that may not always be needed */
   togglePassVisible() {
-    this.passContainer.toggle();
-    this.passContainer.isVisible
-      ? this.takeContainer.removeIsProminent()
-      : this.takeContainer.setIsProminent();
+    this._passContainer.toggle();
+    this._passContainer.isVisible
+      ? this._takeContainer.removeIsProminent()
+      : this._takeContainer.setIsProminent();
   }
 
   /** Confirm the user wishes to reset and then reset takes, passes and the state message */

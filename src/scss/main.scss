@@ -1,0 +1,38 @@
+/* heebo-regular - latin */
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+    url('../static/fonts/heebo-v9-latin-regular.woff2') format('woff2'),
+    url('../static/fonts/heebo-v9-latin-regular.woff') format('woff');
+}
+/* heebo-700 - latin */
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+    url('../static/fonts/heebo-v9-latin-700.woff2') format('woff2'),
+    url('../static/fonts/heebo-v9-latin-700.woff') format('woff');
+}
+
+html {
+  background-color: #000;
+  color: #ffffff;
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 400;
+  height: 100%;
+  min-width: 400px;
+}
+
+@import 'take-counter';
+@import 'count-section';
+@import 'state-section';

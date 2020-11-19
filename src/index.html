@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./static/fonts/heebo-v9-latin-regular.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./static/fonts/heebo-v9-latin-700.woff2"
+      crossorigin
+    />
+    <link rel="preload" href="./scss/main.scss" as="style" />
+    <link rel="preload" href="./ts/index.ts" as="script" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./static/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./static/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./static/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./static/site.webmanifest" />
+    <link rel="stylesheet" href="./scss/main.scss" type="text/css" />
+    <title>Take Counter</title>
+  </head>
+  <body>
+    <main class="take-counter">
+      <div class="take-counter__section" data-tag="pass-container">
+        <section class="count-section">
+          <div class="count-section__label">Pass</div>
+          <div class="count-section__element" data-tag="pass-element" />
+        </section>
+      </div>
+      <div
+        class="take-counter__section take-counter__section--prominent"
+        data-tag="take-container"
+      >
+        <section class="count-section">
+          <div class="count-section__label">Take</div>
+          <div class="count-section__element" data-tag="take-element" />
+        </section>
+      </div>
+      <div
+        class="take-counter__section take-counter__section--full take-counter__section--bottom"
+      >
+        <section class="state-section" data-tag="state-message" />
+      </div>
+    </main>
+
+    <script src="./ts/index.ts"></script>
+  </body>
+</html>

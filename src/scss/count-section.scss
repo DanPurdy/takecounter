@@ -1,0 +1,33 @@
+@import 'variables';
+
+.count-section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: $element-background-color;
+  margin: 0.4rem;
+  height: 100%;
+  font-weight: 700;
+
+  &__label {
+    background-color: $heading-background-color;
+    color: #ffffff;
+    height: 20%;
+    font-size: 15vmin;
+    line-height: 1.2;
+    letter-spacing: -0.4rem;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__element {
+    height: 80%;
+    color: $dark-text-color;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

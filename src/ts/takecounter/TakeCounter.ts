@@ -1,5 +1,4 @@
 import ContainerHandler from './components/ContainerHandler';
-import ElementHandler from './components/ElementHandler';
 import Counter from './components/Counter';
 import MessageHandler, { StateMessage } from './components/MessageHandler';
 import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from './const';

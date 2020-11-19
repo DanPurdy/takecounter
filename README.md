@@ -12,6 +12,22 @@ A working demo can currently be found running at [https://takecounter.dpurdy.dev
 
 ---
 
+## elements
+
+Takecounter requires you to pass in selectors for all the elements it requires to manipulate. Personally i like to use data elements as anchors for this but you can use whatever you want as long as they're provided. Takecounter will do a basic check on startup that these selectors exist in the DOM if they don't an error will be thrown. Please ensure you create your DOM strucutre before attaching Takecounter.
+
+```js
+{
+  passContainer: document.querySelector('[data-tag="pass-container"]'),
+  passElement: document.querySelector('[data-tag="pass-element"]'),
+  takeContainer: document.querySelector('[data-tag="take-container"]'),
+  takeElement: document.querySelector('[data-tag="take-element"]'),
+  stateElement: document.querySelector('[data-tag="state-message"]'),
+},
+```
+
+---
+
 ## options
 
 Takecounter accepts an options object to allow customisation and user defined control
@@ -20,7 +36,7 @@ Takecounter accepts an options object to allow customisation and user defined co
 | ---------------|--------------| ----------------------------| - |
 | `controls`     | `Object{}`   | [see controls](#controls)    | |
 | `modifiers`    | `Object{}`   | [see modifiers](#modifiers)  | |
-| `hidePassOnStartup` | `bool`  | true | The pass section will be hidden by default i.e. Takes only |
+| `hidePassOnStartup` | `bool`  | false | The pass section will not be hidden by default set to true to enable Takes only mode (or user the togglePassVisible control) |
 | `initialPass`  | `number`     | 1 | |
 | `initialTake`  | `number`     | 1 | |
 | `maxPassCount` | `number`     | 999 | |
@@ -57,5 +73,27 @@ The classes added to the pass/take elements when switching between take only and
 | `fullWidthClassName` | `string` | `'full-width'`  | The class name added to the take container when the pass container is hidden |
 
 
+You can see a basic setup below
+
+```js
+import TakeCounter from './takecounter/TakeCounter';
+
+const myTakeCounterApp = new TakeCounter(
+  {
+    passContainer: document.querySelector('[data-tag="pass-container"]'),
+    passElement: document.querySelector('[data-tag="pass-element"]'),
+    takeContainer: document.querySelector('[data-tag="take-container"]'),
+    takeElement: document.querySelector('[data-tag="take-element"]'),
+    stateElement: document.querySelector('[data-tag="state-message"]'),
+  },
+  {
+    hidePassOnStartup: true,
+    modifiers: {
+      hiddenClassName: 'take-counter__section--hidden',
+      fullWidthClassName: 'take-counter__section--full',
+    },
+  },
+);
+```
 
 

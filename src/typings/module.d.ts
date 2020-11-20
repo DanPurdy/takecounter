@@ -7,8 +7,9 @@ interface TakeCounterElements {
 }
 
 interface TakeCounterModifiers {
-  hiddenClassName: string;
-  fullWidthClassName: string;
+  activeClassName?: string;
+  hiddenClassName?: string;
+  fullWidthClassName?: string;
 }
 
 interface TakeCounterControls {

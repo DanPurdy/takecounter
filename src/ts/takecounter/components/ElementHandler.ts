@@ -1,5 +1,5 @@
-export default class ElementHandler {
-  element: HTMLElement;
+export class ElementHandler {
+  readonly element: HTMLElement;
 
   constructor(element: HTMLElement) {
     this.element = element;

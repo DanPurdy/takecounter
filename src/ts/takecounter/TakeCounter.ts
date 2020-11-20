@@ -1,7 +1,11 @@
-import ContainerHandler from './components/ContainerHandler';
-import Counter from './components/Counter';
-import MessageHandler, { StateMessage } from './components/MessageHandler';
-import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from './const';
+import { ContainerHandler } from './components/ContainerHandler';
+import { Counter } from './components/Counter';
+import { MessageHandler, StateMessage } from './components/MessageHandler';
+import {
+  ACTIVE_MESSAGE_SECTION_CLASS,
+  FULL_WIDTH_CLASSNAME,
+  HIDDEN_CLASSNAME,
+} from '../constants';
 
 export default class TakeCounter {
   private _passContainer: ContainerHandler;
@@ -24,7 +28,7 @@ export default class TakeCounter {
       maxTakeCount,
       minPassCount,
       minTakeCount,
-      modifiers: { hiddenClassName, fullWidthClassName },
+      modifiers: { activeClassName, hiddenClassName, fullWidthClassName },
     } = this._initOptions(options);
 
     // Setup our containers
@@ -45,6 +49,7 @@ export default class TakeCounter {
     this._message = new MessageHandler(
       elements.stateElement,
       StateMessage.NEXT,
+      activeClassName,
     );
 
     // Initialise the pass and take counters
@@ -107,6 +112,7 @@ export default class TakeCounter {
         ...options.controls,
       },
       modifiers: {
+        activeClassName: ACTIVE_MESSAGE_SECTION_CLASS,
         hiddenClassName: HIDDEN_CLASSNAME,
         fullWidthClassName: FULL_WIDTH_CLASSNAME,
         ...options.modifiers,

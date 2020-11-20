@@ -10,7 +10,12 @@ const app = new TakeCounter(
   },
   {
     hidePassOnStartup: true,
+    controls: {
+      incrementTake: 'NumpadAdd',
+      decrementTake: 'NumpadSubtract',
+    },
     modifiers: {
+      activeClassName: 'state-section--active',
       hiddenClassName: 'take-counter__section--hidden',
       fullWidthClassName: 'take-counter__section--full',
     },

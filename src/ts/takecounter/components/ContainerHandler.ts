@@ -1,11 +1,11 @@
-import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from '../const';
+import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from '../../constants';
 
 export enum ContainerStatus {
   HIDDEN,
   VISIBLE,
 }
 
-export default class ContainerHandler {
+export class ContainerHandler {
   private _container: HTMLElement;
   private _containerHiddenClassName: string;
   private _containerFullWidthClassName: string;
@@ -29,7 +29,7 @@ export default class ContainerHandler {
       this.hide();
     }
 
-    if (isDefaultFullWidth) {
+    if (isDefaultFullWidth && this._status === ContainerStatus.VISIBLE) {
       this.setIsProminent();
     }
   }
@@ -49,8 +49,16 @@ export default class ContainerHandler {
     }
   }
 
+  show() {
+    if (this._container.classList.contains(this._containerHiddenClassName)) {
+      this._container.classList.remove(this._containerHiddenClassName);
+      this._status = ContainerStatus.VISIBLE;
+    }
+  }
+
   setIsProminent() {
     if (
+      this._status === ContainerStatus.VISIBLE &&
       !this._container.classList.contains(this._containerFullWidthClassName)
     ) {
       this._container.classList.add(this._containerFullWidthClassName);
@@ -60,13 +68,6 @@ export default class ContainerHandler {
   removeIsProminent() {
     if (this._container.classList.contains(this._containerFullWidthClassName)) {
       this._container.classList.remove(this._containerFullWidthClassName);
-    }
-  }
-
-  show() {
-    if (this._container.classList.contains(this._containerHiddenClassName)) {
-      this._container.classList.remove(this._containerHiddenClassName);
-      this._status = ContainerStatus.VISIBLE;
     }
   }
 }

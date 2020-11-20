@@ -1,38 +1,44 @@
-const ACTIVE_MESSAGE_SECTION_CLASS = 'state-section--active';
+import { ACTIVE_MESSAGE_SECTION_CLASS } from '../../constants';
 
 export enum StateMessage {
   CURRENT = 'Current',
   NEXT = 'Next',
 }
 
-export default class MessageHandler {
+export class MessageHandler {
+  private _activeClassName: string;
   private _element: HTMLElement;
-  private message: StateMessage;
+  private _message: StateMessage;
 
-  constructor(stateMessageElement: HTMLElement, stateMessage: StateMessage) {
+  constructor(
+    stateMessageElement: HTMLElement,
+    stateMessage: StateMessage = StateMessage.NEXT,
+    activeClassName: string = ACTIVE_MESSAGE_SECTION_CLASS,
+  ) {
+    this._activeClassName = activeClassName;
     this._element = stateMessageElement;
-    this.stateMessage = stateMessage || StateMessage.NEXT;
+    this.stateMessage = stateMessage;
   }
 
   set stateMessage(message: StateMessage) {
-    this.message = message;
+    this._message = message;
     this._element.innerHTML = message;
 
     if (
       message === StateMessage.CURRENT &&
-      !this._element.classList.contains(ACTIVE_MESSAGE_SECTION_CLASS)
+      !this._element.classList.contains(this._activeClassName)
     ) {
-      this._element.classList.add(ACTIVE_MESSAGE_SECTION_CLASS);
+      this._element.classList.add(this._activeClassName);
     } else if (
       message === StateMessage.NEXT &&
-      this._element.classList.contains(ACTIVE_MESSAGE_SECTION_CLASS)
+      this._element.classList.contains(this._activeClassName)
     ) {
-      this._element.classList.remove(ACTIVE_MESSAGE_SECTION_CLASS);
+      this._element.classList.remove(this._activeClassName);
     }
   }
 
   get current() {
-    return this.message;
+    return this._message;
   }
 
   setNextMessage() {

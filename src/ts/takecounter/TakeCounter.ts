@@ -1,7 +1,7 @@
-import ContainerHandler from './components/ContainerHandler';
-import Counter from './components/Counter';
-import MessageHandler, { StateMessage } from './components/MessageHandler';
-import { FULL_WIDTH_CLASSNAME, HIDDEN_CLASSNAME } from './const';
+import { ContainerHandler } from './components/ContainerHandler';
+import { Counter } from './components/Counter';
+import { MessageHandler, StateMessage } from './components/MessageHandler';
+import { DEFAULT_OPTIONS } from '../constants';
 
 export default class TakeCounter {
   private _passContainer: ContainerHandler;
@@ -24,13 +24,13 @@ export default class TakeCounter {
       maxTakeCount,
       minPassCount,
       minTakeCount,
-      modifiers: { hiddenClassName, fullWidthClassName },
+      modifiers: { activeClassName, hiddenClassName, fullWidthClassName },
     } = this._initOptions(options);
 
     // Setup our containers
     this._passContainer = new ContainerHandler(
       elements.passContainer,
-      !!this?._options?.hidePassOnStartup,
+      this._options.hidePassOnStartup,
       false,
       hiddenClassName,
       fullWidthClassName,
@@ -38,13 +38,14 @@ export default class TakeCounter {
     this._takeContainer = new ContainerHandler(
       elements.takeContainer,
       false,
-      this?._options?.hidePassOnStartup, // make default full width if passes are hidden
+      this._options.hidePassOnStartup, // make default full width if passes are hidden
       hiddenClassName,
       fullWidthClassName,
     );
     this._message = new MessageHandler(
       elements.stateElement,
       StateMessage.NEXT,
+      activeClassName,
     );
 
     // Initialise the pass and take counters
@@ -66,11 +67,15 @@ export default class TakeCounter {
   }
 
   get take() {
-    return this?.takes?.count || this._options.initialTake;
+    return this.takes.count;
   }
 
   get pass() {
-    return this?.passes?.count || this._options.initialPass;
+    return this.passes.count;
+  }
+
+  get options() {
+    return this._options;
   }
 
   // Ensure all elements are defined and exist in the DOM
@@ -86,48 +91,29 @@ export default class TakeCounter {
 
   private _initOptions(options: TakeCounterOptions): TakeCounterOptions {
     return (this._options = {
-      hidePassOnStartup: false,
-      initialPass: 1,
-      initialTake: 1,
-      maxPassCount: 999,
-      minPassCount: 1,
-      maxTakeCount: 9999,
-      minTakeCount: 1,
-      resetTakeOnNewPass: false,
+      ...DEFAULT_OPTIONS,
       ...options,
       controls: {
-        incrementTake: 'NumpadAdd',
-        decrementTake: 'NumpadSubtract',
-        selectTake: 'NumpadMultiply',
-        incrementPass: 'Numpad6',
-        decrementPass: 'Numpad9',
-        intiateNewPass: 'Numpad7',
-        togglePassVisible: 'Numpad4',
-        resetAndClear: 'NumpadDecimal',
+        ...DEFAULT_OPTIONS.controls,
         ...options.controls,
       },
       modifiers: {
-        hiddenClassName: HIDDEN_CLASSNAME,
-        fullWidthClassName: FULL_WIDTH_CLASSNAME,
+        ...DEFAULT_OPTIONS.modifiers,
         ...options.modifiers,
       },
     });
   }
 
   private _initialiseHandlers(controls: TakeCounterControls): void {
-    try {
-      window.onkeydown = (event: KeyboardEvent) => {
-        const registeredKey = Object.keys(controls).find(
-          (key) => controls[key] === event.code,
-        );
+    window.onkeydown = (event: KeyboardEvent) => {
+      const registeredKey = Object.keys(controls).find(
+        (key) => controls[key] === event.code,
+      );
 
-        if (registeredKey) {
-          this[registeredKey]();
-        }
-      };
-    } catch (err) {
-      console.error(err);
-    }
+      if (registeredKey) {
+        this[registeredKey]();
+      }
+    };
   }
 
   /** Reset the take to the initialTake value and set the state to 'NEXT'  */
@@ -199,7 +185,7 @@ export default class TakeCounter {
   }
 
   /** When starting a new pass increment the count. If resetTakeOnNewPass is set for legacy reasons then the take will be reset to 1 */
-  intiateNewPass() {
+  initiateNewPass() {
     this.passes.incrementCount();
 
     if (this._options.resetTakeOnNewPass) {

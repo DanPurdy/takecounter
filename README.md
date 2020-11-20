@@ -10,6 +10,34 @@ Also serving as a demo i've been using to illustrate composition over inheritanc
 
 A working demo can currently be found running at [https://takecounter.dpurdy.dev](https://takecounter.dpurdy.dev)
 
+## Building the project
+
+We use parcel to build this project.
+
+```
+npm i
+```
+
+
+If you're wanting to deploy to a webserver run the following command and then upload the contents of the dist folder to your webhosting.
+
+```
+npm run build
+```
+
+If you want to open the index.html file directly and run manually from your filesystem then the following command can be used and then copy the dist folder to wherever you ant on your own system.
+
+```
+npm run build-download
+```
+
+Finally to run locally, run the following and then visit [http://localhost:1234](http://localhost:1234)
+
+```
+npm run dev
+```
+
+
 ---
 
 ## elements
@@ -57,7 +85,7 @@ This is the list of key binds to control the takecounter, update freely to any k
 | `selectTake` | `NumpadMultiply` |
 | `incrementPass` | `Numpad6` |
 | `decrementPass` | `Numpad9` |
-| `intiateNewPass` | `Numpad7` |
+| `initiateNewPass` | `Numpad7` |
 | `togglePassVisible` | `Numpad4` |
 | `resetAndClear` | `NumpadDecimal` |
 
@@ -69,6 +97,7 @@ The classes added to the pass/take elements when switching between take only and
 
 | Key                  | type     | Default value | Notes |
 | -------------------- | -------- | ------------- | ------|
+| `activeClassName`    | `string` | `'hidden'`      | The class name added to the state message section when active (state CURRENT) |
 | `hiddenClassName`    | `string` | `'hidden'`      | The class name added to the pass container when hidden |
 | `fullWidthClassName` | `string` | `'full-width'`  | The class name added to the take container when the pass container is hidden |
 
@@ -86,8 +115,14 @@ const myTakeCounterApp = new TakeCounter(
     takeElement: document.querySelector('[data-tag="take-element"]'),
     stateElement: document.querySelector('[data-tag="state-message"]'),
   },
+  // Options object below is optional and for example only here
   {
     hidePassOnStartup: true,
+    maxPassCount: 100,
+    controls: {
+      incrementTake: 'NumpadAdd',
+      decrementTake: 'NumpadSubtract',
+    },
     modifiers: {
       hiddenClassName: 'take-counter__section--hidden',
       fullWidthClassName: 'take-counter__section--full',

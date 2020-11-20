@@ -1,6 +1,6 @@
-import ElementHandler from './ElementHandler';
+import { ElementHandler } from './ElementHandler';
 
-export default class Counter {
+export class Counter {
   private _elementHandler: ElementHandler;
   private _count: number;
   private _initialCount: number;
@@ -14,8 +14,8 @@ export default class Counter {
     minCount: number = 1,
   ) {
     this._elementHandler = new ElementHandler(element);
-    this._maxCount = maxCount;
-    this._minCount = minCount;
+    this._minCount = minCount >= 0 ? minCount : 0;
+    this._maxCount = maxCount > this._minCount ? maxCount : minCount + 1;
     this._initialCount = this.set(count);
   }
 

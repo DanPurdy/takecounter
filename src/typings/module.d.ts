@@ -18,7 +18,7 @@ interface TakeCounterControls {
   selectTake?: string;
   incrementPass?: string;
   decrementPass?: string;
-  intiateNewPass?: string;
+  initiateNewPass?: string;
   togglePassVisible?: string;
   resetAndClear?: string;
 }

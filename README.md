@@ -85,7 +85,7 @@ This is the list of key binds to control the takecounter, update freely to any k
 | `selectTake` | `NumpadMultiply` |
 | `incrementPass` | `Numpad6` |
 | `decrementPass` | `Numpad9` |
-| `intiateNewPass` | `Numpad7` |
+| `initiateNewPass` | `Numpad7` |
 | `togglePassVisible` | `Numpad4` |
 | `resetAndClear` | `NumpadDecimal` |
 

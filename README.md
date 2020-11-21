@@ -73,7 +73,7 @@ Takecounter accepts an options object to allow customisation and user defined co
 | `minPassCount` | `number`     | 1  | |
 | `maxTakeCount` | `number`     | 9999  | |
 | `minTakeCount` | `number`     | 1  | |
-| `resetTakeOnNewPass` | `bool` | false  | Will reset pass to 0 when you start a new take|
+| `resetTakeOnNewPass` | `bool` | false  | Will reset take to the initial take count when you start a new pass |
 
 ### Controls (options.controls)
 ---

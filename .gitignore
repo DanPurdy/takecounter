@@ -3,3 +3,7 @@ dist/*
 !dist/.gitkeep
 .cache
 coverage
+e2e/logs/**/*.json
+e2e/result.xml
+e2e/screenshots/*
+!e2e/screenshots/.gitkeep

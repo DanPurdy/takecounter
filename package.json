@@ -4,11 +4,12 @@
   "description": "Keyboard controlled takecounter for studio use",
   "browser": "dist/index.js",
   "scripts": {
-    "dev": "parcel src/index.html",
     "build": "tsc --noEmit && parcel build src/index.html",
     "build-download": "tsc --noEmit && parcel build src/index.html --public-url .",
+    "dev": "parcel src/index.html",
     "start": "parcel src/index.html",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "node e2e/tests/testRunner.ts"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "prettier": "2.1.2",
     "pretty-quick": "^3.1.0",
     "sass": "^1.29.0",
+    "testcafe": "^1.9.4",
+    "testcafe-reporter-xunit": "^2.1.0",
     "ts-jest": "^26.4.4",
     "typescript": "^4.0.5"
   },

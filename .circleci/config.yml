@@ -142,7 +142,7 @@ workflows:
   node-tests:
     jobs:
       - prepare-dependencies
-      - e2e-test:
+      - e2e-tests:
           context:
             - slack-secrets
           requires:

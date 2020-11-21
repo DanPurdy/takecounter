@@ -1,6 +1,19 @@
+/// <reference path="../typings/module.d.ts" />
+
 export const HIDDEN_CLASSNAME: string = 'hidden';
 export const FULL_WIDTH_CLASSNAME: string = 'full-width';
 export const ACTIVE_MESSAGE_SECTION_CLASS = 'message-current';
+
+export const DEFAULT_OPTIONS_CONTROLS = {
+  incrementTake: 'NumpadAdd',
+  decrementTake: 'NumpadSubtract',
+  selectTake: 'NumpadMultiply',
+  incrementPass: 'Numpad6',
+  decrementPass: 'Numpad9',
+  initiateNewPass: 'Numpad7',
+  togglePassVisible: 'Numpad4',
+  resetAndClear: 'NumpadDecimal',
+} as TakeCounterControls;
 
 export const DEFAULT_OPTIONS = {
   hidePassOnStartup: false,
@@ -12,14 +25,7 @@ export const DEFAULT_OPTIONS = {
   minTakeCount: 1,
   resetTakeOnNewPass: false,
   controls: {
-    incrementTake: 'NumpadAdd',
-    decrementTake: 'NumpadSubtract',
-    selectTake: 'NumpadMultiply',
-    incrementPass: 'Numpad6',
-    decrementPass: 'Numpad9',
-    initiateNewPass: 'Numpad7',
-    togglePassVisible: 'Numpad4',
-    resetAndClear: 'NumpadDecimal',
+    ...DEFAULT_OPTIONS_CONTROLS,
   },
   modifiers: {
     activeClassName: ACTIVE_MESSAGE_SECTION_CLASS,

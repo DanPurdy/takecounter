@@ -1,5 +1,7 @@
 # Takecounter
 
+[![CircleCI](https://circleci.com/gh/DanPurdy/takecounter.svg?style=svg)](https://circleci.com/gh/DanPurdy/takecounter)
+
 Takecounter is a simple web application designed to allow anyone to keep track of and display takes and passes in a Recording studio environment, or indeed anywhere that may require a take counter!
 
 Initially built as a jQuery plugin in my early days learning web development ~2013 during my time working at Angel Recording Studios in London. The initial project ran in chromium on Raspberry Pi using a dedicated numpad attached via usb. 
@@ -62,8 +64,8 @@ Takecounter accepts an options object to allow customisation and user defined co
 
 | Key  | type | Default value | Notes |
 | ---------------|--------------| ----------------------------| - |
-| `controls`     | `Object{}`   | [see controls](#controls)    | |
-| `modifiers`    | `Object{}`   | [see modifiers](#modifiers)  | |
+| `controls`     | `Object{}`   | [see controls](#controls-optionscontrols)    | |
+| `modifiers`    | `Object{}`   | [see modifiers](#modifiers-optionsmodifiers)  | |
 | `hidePassOnStartup` | `bool`  | false | The pass section will not be hidden by default set to true to enable Takes only mode (or user the togglePassVisible control) |
 | `initialPass`  | `number`     | 1 | |
 | `initialTake`  | `number`     | 1 | |
@@ -124,6 +126,7 @@ const myTakeCounterApp = new TakeCounter(
       decrementTake: 'NumpadSubtract',
     },
     modifiers: {
+      activeClassName: 'state-section--active',
       hiddenClassName: 'take-counter__section--hidden',
       fullWidthClassName: 'take-counter__section--full',
     },

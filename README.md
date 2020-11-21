@@ -41,13 +41,13 @@ npm run dev
 
 TODO
 
-[] Add options menu to allow updating and editing of controls without need to rebuild
+[ ] Add options menu to allow updating and editing of controls without need to rebuild
 
-[] Add legacy mode - see V1 branch for slight differences in functionality
+[ ] Add legacy mode - see V1 branch for slight differences in functionality
 
-[] Reimplment history of passes/takes and recallable history. Localstorage should be enough for this.
+[ ] Reimplment history of passes/takes and recallable history. Localstorage should be enough for this.
 
-[] Add offline support
+[ ] Add offline support
 
 
 ---

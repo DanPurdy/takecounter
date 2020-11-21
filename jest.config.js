@@ -6,11 +6,14 @@
 module.exports = {
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ["**/*.ts", "!**/ts/index.ts", "!**/typings/*"],
-  coverageDirectory: "coverage",
-  coveragePathIgnorePatterns: [
-    "/node_modules/"
+  testMatch: [
+    '**/src/**/__tests__/**/*.[jt]s?(x)',
+    '**/src/**/?(*.)+(spec|test).[jt]s?(x)',
   ],
-  coverageProvider: "babel",
+  collectCoverageFrom: ['**/src/**/*.ts', '!**/ts/index.ts', '!**/typings/*'],
+  coverageDirectory: 'coverage',
+  coveragePathIgnorePatterns: ['/node_modules/'],
+  coverageProvider: 'babel',
   preset: 'ts-jest',
+  reporters: ['default', 'jest-junit'],
 };

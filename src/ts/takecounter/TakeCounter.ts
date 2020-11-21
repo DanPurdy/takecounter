@@ -13,7 +13,7 @@ export default class TakeCounter {
 
   constructor(
     elements: TakeCounterElements,
-    options: TakeCounterOptions = { controls: {} },
+    options: TakeCounterOptions = { controls: {}, modifiers: {} },
   ) {
     // Validate all the elements exists that we need
     this._validateElements(elements);

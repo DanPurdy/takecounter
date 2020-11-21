@@ -137,11 +137,40 @@ jobs:
           path: /tmp/test-results
       - store_test_results:
           path: /tmp/test-results
+  build-release-artifcats:
+    working_directory: ~/takecounter
+    docker:
+      - image: cibuilds/github:latest
+    steps:
+      - run: |
+          mkdir /tmp/artifacts
+      - run:
+          name: Build server
+          command: npm run build
+      - run: |
+          cd dist
+          zip -r /tmp/artifcats/${CIRCLE_PROJECT_REPONAME}-server.zip . -x "*.git*"
+      - run:
+          name: Build Local
+          command: npm run build-download
+      - run: |
+          cd dist
+          zip -r /tmp/artifcats/${CIRCLE_PROJECT_REPONAME}-local.zip . -x "*.git*"
+      - run:
+          name: Publish Github Release
+          command: |
+            VERSION=${CIRCLE_TAG}
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /tmp/artifacts/
 
 workflows:
-  node-tests:
+  tests:
     jobs:
-      - prepare-dependencies
+      - prepare-dependencies:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /^\d+\.\d+\.\d+$/
       - e2e-tests:
           context:
             - slack-secrets
@@ -153,4 +182,24 @@ workflows:
             - slack-secrets
           requires:
             - prepare-dependencies
+          <<: *slack-post-steps
+  prepare-release:
+    jobs:
+      - prepare-dependencies:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - build-release-artifcats:
+          context:
+            - slack-secrets
+            - github-secrets
+          requires:
+            - prepare-dependencies
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
           <<: *slack-post-steps

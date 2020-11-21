@@ -109,7 +109,7 @@ jobs:
       - slack/notify:
           event: fail
           template: basic_fail_1
-  e2e-test:
+  e2e-tests:
     environment:
       E2E_HOST: 'http://localhost:1234'
       E2E_HEADLESS: 'true'

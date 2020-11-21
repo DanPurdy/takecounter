@@ -1,7 +1,40 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
+  slack: circleci/slack@4.1.1
+jobs:
+  e2e-test:
+    environment:
+      E2E_HOST: 'http://localhost:1234'
+      E2E_HEADLESS: 'true'
+    working_directory: ~/takecounter
+    docker:
+      - image: circleci/node:12.19-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            npm ci --unsafe-perm
+            npm prune
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Start dev server
+          command: npm run dev
+          background: true
+      - run:
+          name: E2E tests
+          command: npm run test:e2e
+      - store_test_results:
+          path: /tmp/test-results
+
 workflows:
   node-tests:
     jobs:
+      - e2e-test
       - node/test

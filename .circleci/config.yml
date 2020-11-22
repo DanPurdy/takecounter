@@ -140,27 +140,48 @@ jobs:
   build-release-artifcats:
     working_directory: ~/takecounter
     docker:
-      - image: cibuilds/github:latest
+      - image: node:current
     steps:
+      - attach_workspace:
+          at: .
       - run: |
+          apt-get update && apt-get install -y zip unzip
           mkdir /tmp/artifacts
       - run:
           name: Build server
           command: npm run build
       - run: |
           cd dist
-          zip -r /tmp/artifcats/${CIRCLE_PROJECT_REPONAME}-server.zip . -x "*.git*"
+          zip -r ${CIRCLE_PROJECT_REPONAME}-server.zip . -x "*.git*"
+          mv ${CIRCLE_PROJECT_REPONAME}-server.zip /tmp/artifacts
       - run:
           name: Build Local
           command: npm run build-download
       - run: |
           cd dist
-          zip -r /tmp/artifcats/${CIRCLE_PROJECT_REPONAME}-local.zip . -x "*.git*"
+          zip -r ${CIRCLE_PROJECT_REPONAME}-local.zip . -x "*.git*"
+          mv ${CIRCLE_PROJECT_REPONAME}-local.zip /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+      - persist_to_workspace:
+          root: /tmp/artifacts/
+          paths:
+            - .
+  create-release:
+    working_directory: ~/takecounter
+    docker:
+      - image: cibuilds/github:latest
+    steps:
+      - attach_workspace:
+          at: /tmp/artifacts
       - run:
           name: Publish Github Release
           command: |
+            mkdir /tmp/artifacts/output
+            mv /tmp/artifacts/${CIRCLE_PROJECT_REPONAME}-local.zip /tmp/artifacts/output
+            mv /tmp/artifacts/${CIRCLE_PROJECT_REPONAME}-server.zip /tmp/artifacts/output
             VERSION=${CIRCLE_TAG}
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /tmp/artifacts/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${VERSION} -delete ${VERSION} /tmp/artifacts/output
 
 workflows:
   tests:
@@ -192,14 +213,24 @@ workflows:
             tags:
               only: /^\d+\.\d+\.\d+$/
       - build-release-artifcats:
-          context:
-            - slack-secrets
-            - github-secrets
-          requires:
-            - prepare-dependencies
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^\d+\.\d+\.\d+$/
+          context:
+            - slack-secrets
+          requires:
+            - prepare-dependencies
+      - create-release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+          context:
+            - slack-secrets
+            - github-secrets
+          requires:
+            - build-release-artifcats
           <<: *slack-post-steps

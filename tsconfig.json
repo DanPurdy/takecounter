@@ -3,7 +3,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "dist",
-    "target": "ES6"
+    "target": "ES6",
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"]
 }

@@ -127,7 +127,7 @@ jobs:
           name: E2E tests
           command: npm run test:e2e
       - run:
-          name: Save artifcats
+          name: Save artifacts
           command: |
             mkdir /tmp/test-results
             cp e2e/result.xml /tmp/test-results/result.xml
@@ -137,7 +137,7 @@ jobs:
           path: /tmp/test-results
       - store_test_results:
           path: /tmp/test-results
-  build-release-artifcats:
+  build-release-artifacts:
     working_directory: ~/takecounter
     docker:
       - image: node:current
@@ -212,7 +212,7 @@ workflows:
               ignore: /.*/
             tags:
               only: /^\d+\.\d+\.\d+$/
-      - build-release-artifcats:
+      - build-release-artifacts:
           filters:
             branches:
               ignore: /.*/
@@ -232,5 +232,5 @@ workflows:
             - slack-secrets
             - github-secrets
           requires:
-            - build-release-artifcats
+            - build-release-artifacts
           <<: *slack-post-steps

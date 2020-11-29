@@ -26,6 +26,7 @@ interface TakeCounterControls {
 interface TakeCounterOptions {
   controls?: TakeCounterControls;
   modifiers?: TakeCounterModifiers;
+  disablePassHistoryLoad?: boolean;
   hidePassOnStartup?: boolean;
   initialPass?: number;
   initialTake?: number;

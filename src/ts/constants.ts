@@ -16,6 +16,7 @@ export const DEFAULT_OPTIONS_CONTROLS = {
 } as TakeCounterControls;
 
 export const DEFAULT_OPTIONS = {
+  disablePassHistoryLoad: false,
   hidePassOnStartup: false,
   initialPass: 1,
   initialTake: 1,

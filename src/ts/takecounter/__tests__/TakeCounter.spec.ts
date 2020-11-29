@@ -101,6 +101,8 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.takes.count).toEqual(takeCounter.take);
     expect(takeCounter.passes.count).toEqual(takeCounter.pass);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should not allow us to increment the pass counter if the pass counter is not visible', () => {
@@ -138,6 +140,8 @@ describe('TakeCounter', () => {
     takeCounter.decrementPass();
 
     expect(takeCounter.pass).toEqual(3);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should allow us to increment the pass counter if the pass counter is visible', () => {
@@ -156,6 +160,8 @@ describe('TakeCounter', () => {
     takeCounter.incrementPass();
 
     expect(takeCounter.pass).toEqual(3);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should allow us to decrement the pass counter if the pass counter is visible', () => {
@@ -175,6 +181,8 @@ describe('TakeCounter', () => {
     takeCounter.decrementPass();
 
     expect(takeCounter.pass).toEqual(1);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should allow us to increment the take counter', () => {
@@ -188,6 +196,8 @@ describe('TakeCounter', () => {
     takeCounter.incrementTake(); // Increments the count
 
     expect(takeCounter.take).toEqual(2);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should allow us to decrement the take counter', () => {
@@ -206,6 +216,8 @@ describe('TakeCounter', () => {
     takeCounter.decrementTake(); // Increments the count
 
     expect(takeCounter.take).toEqual(1);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should allow set the state message correctly', () => {
@@ -233,6 +245,8 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.take).toEqual(2);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
   });
 
   it('should not allow you to decrement the take below the minTakeCount', () => {
@@ -307,19 +321,23 @@ describe('TakeCounter', () => {
     takeCounter.incrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.CURRENT);
     expect(takeCounter.take).toEqual(10);
+    expect(takeCounter.history[takeCounter.pass]).toBe(10);
 
     takeCounter.decrementTake();
 
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
     expect(takeCounter.take).toEqual(10);
+    expect(takeCounter.history[takeCounter.pass]).toBe(10);
 
     takeCounter.decrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
     expect(takeCounter.take).toEqual(9);
+    expect(takeCounter.history[takeCounter.pass]).toBe(9);
 
     takeCounter.decrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
     expect(takeCounter.take).toEqual(8);
+    expect(takeCounter.history[takeCounter.pass]).toBe(8);
   });
 
   it('should reset the take when increment pass and the resetTakeOnNewPass option is set', () => {
@@ -343,18 +361,23 @@ describe('TakeCounter', () => {
     expect(takeCounter.pass).toEqual(1);
     expect(takeCounter.take).toEqual(1);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.CURRENT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(takeCounter.take).toEqual(2);
+    expect(takeCounter.history[1]).toBe(2);
 
     takeCounter.incrementPass();
 
     expect(takeCounter.pass).toEqual(2);
     expect(takeCounter.take).toEqual(1);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[2]).toBe(1);
+    expect(takeCounter.history[1]).toBe(2);
   });
 
   it('should increment the pass but not reset the take when resetTakeOnNewPass is false', () => {
@@ -378,19 +401,24 @@ describe('TakeCounter', () => {
     expect(takeCounter.pass).toEqual(1);
     expect(takeCounter.take).toEqual(1);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.CURRENT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(takeCounter.take).toEqual(2);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(2);
 
     takeCounter.initiateNewPass();
 
     expect(takeCounter.pass).toEqual(2);
     expect(takeCounter.take).toEqual(2);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(2);
+    expect(takeCounter.history[2]).toBe(2);
   });
 
   it('should increment the pass and reset the take when resetTakeOnNewPass is true - initiateNewPass', () => {
@@ -414,19 +442,24 @@ describe('TakeCounter', () => {
     expect(takeCounter.pass).toEqual(1);
     expect(takeCounter.take).toEqual(1);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(selector.innerHTML).toEqual(StateMessage.CURRENT);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementTake();
     expect(takeCounter.take).toEqual(2);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(2);
 
     takeCounter.initiateNewPass();
 
     expect(takeCounter.pass).toEqual(2);
     expect(takeCounter.take).toEqual(1);
     expect(selector.innerHTML).toEqual(StateMessage.NEXT);
+    expect(takeCounter.history[1]).toBe(2);
+    expect(takeCounter.history[2]).toBe(1);
   });
 
   it('togglePass should correctly toggle the elements classes', () => {
@@ -484,10 +517,14 @@ describe('TakeCounter', () => {
     expect(takeCounter.take).toEqual(1);
     expect(takeCounter.pass).toEqual(1);
 
+    expect(takeCounter.history[1]).toBe(1);
+
     takeCounter.selectTake();
 
     expect(takeCounter.take).toEqual(5);
     expect(takeCounter.pass).toEqual(1);
+
+    expect(takeCounter.history[1]).toBe(5);
   });
 
   it('resetAndClear should ask the user to confirm and not take action if cancelled', () => {
@@ -506,16 +543,21 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.take).toEqual(1);
     expect(takeCounter.pass).toEqual(1);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementPass();
+    expect(takeCounter.history[2]).toBe(1);
     takeCounter.incrementPass();
+    expect(takeCounter.history[3]).toBe(1);
     takeCounter.incrementTake();
     takeCounter.incrementTake();
+    expect(takeCounter.history[3]).toBe(2);
     takeCounter.incrementTake();
     takeCounter.incrementTake();
 
     expect(takeCounter.take).toEqual(3);
     expect(takeCounter.pass).toEqual(3);
+    expect(takeCounter.history[3]).toBe(3);
 
     takeCounter.resetAndClear();
 
@@ -523,6 +565,8 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.take).toEqual(3);
     expect(takeCounter.pass).toEqual(3);
+
+    expect(takeCounter.history[3]).toBe(3);
   });
 
   it('resetAndClear should ask the user to confirm and reset take and pass if confirmed', () => {
@@ -541,16 +585,21 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.take).toEqual(1);
     expect(takeCounter.pass).toEqual(1);
+    expect(takeCounter.history[1]).toBe(1);
 
     takeCounter.incrementPass();
+    expect(takeCounter.history[2]).toBe(1);
     takeCounter.incrementPass();
+    expect(takeCounter.history[3]).toBe(1);
     takeCounter.incrementTake();
     takeCounter.incrementTake();
+    expect(takeCounter.history[3]).toBe(2);
     takeCounter.incrementTake();
     takeCounter.incrementTake();
 
     expect(takeCounter.take).toEqual(3);
     expect(takeCounter.pass).toEqual(3);
+    expect(takeCounter.history[3]).toBe(3);
 
     takeCounter.resetAndClear();
 
@@ -558,6 +607,7 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.take).toEqual(1);
     expect(takeCounter.pass).toEqual(1);
+    expect(takeCounter.history[1]).toBe(1);
   });
 
   it('should correctly call the function registred to the control key', () => {
@@ -590,5 +640,107 @@ describe('TakeCounter', () => {
     window.dispatchEvent(event);
 
     expect(confirmSpy).not.toHaveBeenCalled();
+  });
+
+  it('should load the previous passes take count when the pass disablePassHistoryLoad is false', () => {
+    const promptSpy = jest
+      .spyOn(global, 'prompt' as any)
+      .mockReturnValueOnce(5);
+
+    const takeCounter = new TakeCounter(
+      {
+        ...getDefaultElements(),
+      },
+      {
+        resetTakeOnNewPass: true,
+      },
+    );
+
+    takeCounter.selectTake();
+    expect(takeCounter.history[1]).toBe(5);
+
+    takeCounter.incrementPass();
+    takeCounter.incrementTake();
+    takeCounter.incrementTake();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(2);
+
+    takeCounter.decrementPass();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(2);
+
+    expect(takeCounter.pass).toBe(1);
+    expect(takeCounter.take).toBe(5);
+  });
+
+  it('should not load the previous passes take count when the pass disablePassHistoryLoad is false', () => {
+    const promptSpy = jest
+      .spyOn(global, 'prompt' as any)
+      .mockReturnValueOnce(5);
+
+    const takeCounter = new TakeCounter(
+      {
+        ...getDefaultElements(),
+      },
+      {
+        resetTakeOnNewPass: true,
+        disablePassHistoryLoad: true,
+      },
+    );
+
+    takeCounter.selectTake();
+    expect(takeCounter.history[1]).toBe(5);
+
+    takeCounter.incrementPass();
+    takeCounter.incrementTake();
+    takeCounter.incrementTake();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(2);
+
+    takeCounter.decrementPass();
+    expect(takeCounter.history[1]).toBe(2);
+    expect(takeCounter.history[2]).toBe(2);
+
+    expect(takeCounter.pass).toBe(1);
+    expect(takeCounter.take).toBe(2);
+  });
+
+  it('should not load the previous passes take count and next take count when the pass disablePassHistoryLoad is false', () => {
+    const promptSpy = jest
+      .spyOn(global, 'prompt' as any)
+      .mockReturnValueOnce(5);
+
+    const takeCounter = new TakeCounter(
+      {
+        ...getDefaultElements(),
+      },
+      {
+        resetTakeOnNewPass: false,
+        disablePassHistoryLoad: false,
+      },
+    );
+
+    takeCounter.selectTake();
+    expect(takeCounter.history[1]).toBe(5);
+
+    takeCounter.incrementPass();
+    takeCounter.incrementTake();
+    takeCounter.incrementTake();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(6);
+
+    takeCounter.decrementPass();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(6);
+
+    expect(takeCounter.pass).toBe(1);
+    expect(takeCounter.take).toBe(5);
+
+    takeCounter.incrementPass();
+    expect(takeCounter.history[1]).toBe(5);
+    expect(takeCounter.history[2]).toBe(6);
+
+    expect(takeCounter.pass).toBe(2);
+    expect(takeCounter.take).toBe(6);
   });
 });

@@ -1,6 +1,7 @@
 import { ContainerHandler } from './components/ContainerHandler';
 import { Counter } from './components/Counter';
 import { MessageHandler, StateMessage } from './components/MessageHandler';
+import { HistoryManager } from './components/HistoryManager';
 import { DEFAULT_OPTIONS } from '../constants';
 
 export default class TakeCounter {
@@ -8,6 +9,7 @@ export default class TakeCounter {
   private _takeContainer: ContainerHandler;
   private _message: MessageHandler;
   private _options: TakeCounterOptions;
+  private _historyManager: HistoryManager;
   readonly passes: Counter;
   readonly takes: Counter;
 
@@ -26,6 +28,8 @@ export default class TakeCounter {
       minTakeCount,
       modifiers: { activeClassName, hiddenClassName, fullWidthClassName },
     } = this._initOptions(options);
+
+    this._historyManager = new HistoryManager();
 
     // Setup our containers
     this._passContainer = new ContainerHandler(
@@ -62,6 +66,8 @@ export default class TakeCounter {
       minTakeCount,
     );
 
+    this._historyManager.set(this.pass, this.take);
+
     // Setup our controls and initial state
     this._initialiseHandlers(this._options.controls);
   }
@@ -76,6 +82,10 @@ export default class TakeCounter {
 
   get options() {
     return this._options;
+  }
+
+  get history() {
+    return this._historyManager.state;
   }
 
   // Ensure all elements are defined and exist in the DOM
@@ -116,10 +126,12 @@ export default class TakeCounter {
     };
   }
 
-  /** Reset the take to the initialTake value and set the state to 'NEXT'  */
+  /** Reset the take to the initialTake value and set the state to 'NEXT' */
   resetTake() {
     this.takes.reset();
     this._message.setNextMessage();
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Increment the current take count if the current state is 'CURRENT' and set the state to 'NEXT'. If the state is 'NEXT' then enter 'CURRENT' state and do not increment the take */
@@ -134,6 +146,7 @@ export default class TakeCounter {
     if (this._message.current === StateMessage.CURRENT) {
       this.takes.incrementCount();
       this._message.setNextMessage();
+      this._historyManager.set(this.pass, this.take);
     } else {
       this._message.setCurrentMessage();
     }
@@ -146,6 +159,7 @@ export default class TakeCounter {
       this._message.setNextMessage();
     } else {
       this.takes.decrementCount();
+      this._historyManager.set(this.pass, this.take);
     }
   }
 
@@ -160,6 +174,8 @@ export default class TakeCounter {
         10,
       ),
     );
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Increment the current pass count only if the pass container is visible */
@@ -173,6 +189,16 @@ export default class TakeCounter {
     if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
+
+    if (!this._options.disablePassHistoryLoad) {
+      try {
+        this.takes.set(this._historyManager.load(this.pass));
+      } catch (err) {
+        this._historyManager.set(this.pass, this.take);
+      }
+    } else {
+      this._historyManager.set(this.pass, this.take);
+    }
   }
 
   /** Decrement the current pass count */
@@ -182,6 +208,16 @@ export default class TakeCounter {
     }
 
     this.passes.decrementCount();
+
+    if (!this._options.disablePassHistoryLoad) {
+      try {
+        this.takes.set(this._historyManager.load(this.pass));
+      } catch (err) {
+        this._historyManager.set(this.pass, this.take);
+      }
+    } else {
+      this._historyManager.set(this.pass, this.take);
+    }
   }
 
   /** When starting a new pass increment the count. If resetTakeOnNewPass is set for legacy reasons then the take will be reset to 1 */
@@ -191,6 +227,8 @@ export default class TakeCounter {
     if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Toggle whether the pass container should be visible or not. The pass container is a legacy feature that may not always be needed */
@@ -205,6 +243,7 @@ export default class TakeCounter {
   resetAndClear() {
     // TODO replace with custom UI
     if (confirm('Reset?')) {
+      this._historyManager.reset();
       this.passes.reset();
       this.resetTake();
     }

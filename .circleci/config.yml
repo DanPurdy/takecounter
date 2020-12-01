@@ -62,6 +62,7 @@ slack-fail-post-step: &slack-post-steps
 orbs:
   node: circleci/node@3.0.0
   slack: circleci/slack@4.1.1
+  coveralls: coveralls/coveralls@1.0.6
 jobs:
   prepare-dependencies:
     working_directory: ~/takecounter
@@ -96,6 +97,8 @@ jobs:
           name: Unit tests
           command: npm run test
           when: always
+      - coveralls/upload:
+          path_to_lcov: ./coverage/lcov.info
       - run:
           name: Save output
           command: |

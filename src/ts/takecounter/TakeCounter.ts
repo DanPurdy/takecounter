@@ -1,6 +1,7 @@
 import { ContainerHandler } from './components/ContainerHandler';
 import { Counter } from './components/Counter';
 import { MessageHandler, StateMessage } from './components/MessageHandler';
+import { HistoryManager } from './components/HistoryManager';
 import { DEFAULT_OPTIONS } from '../constants';
 
 export default class TakeCounter {
@@ -8,6 +9,7 @@ export default class TakeCounter {
   private _takeContainer: ContainerHandler;
   private _message: MessageHandler;
   private _options: TakeCounterOptions;
+  private _historyManager: HistoryManager;
   readonly passes: Counter;
   readonly takes: Counter;
 
@@ -17,6 +19,21 @@ export default class TakeCounter {
   ) {
     // Validate all the elements exists that we need
     this._validateElements(elements);
+
+    // Check our local storage historical state and if found, whether the user wants to load
+    this._historyManager = new HistoryManager();
+    const overrides: TakeCounterOptions = { controls: {}, modifiers: {} };
+
+    if (this._historyManager.checkAndLoadHistoricalData()) {
+      const {
+        pass: historicalPass,
+        take: historicalTake,
+      } = this._historyManager.latestPassAndTake;
+
+      overrides.initialPass = historicalPass;
+      overrides.initialTake = historicalTake;
+    }
+
     const {
       initialPass,
       initialTake,
@@ -25,7 +42,10 @@ export default class TakeCounter {
       minPassCount,
       minTakeCount,
       modifiers: { activeClassName, hiddenClassName, fullWidthClassName },
-    } = this._initOptions(options);
+    } = this._initOptions(options, overrides);
+
+    // Set our history state with our initial value (kinda redundant if we loaded from history but won't harm to set exact same values again)
+    this._historyManager.set(initialPass, initialTake);
 
     // Setup our containers
     this._passContainer = new ContainerHandler(
@@ -78,6 +98,10 @@ export default class TakeCounter {
     return this._options;
   }
 
+  get history() {
+    return this._historyManager.state;
+  }
+
   // Ensure all elements are defined and exist in the DOM
   private _validateElements(elements: TakeCounterElements): void {
     for (const key of Object.keys(elements)) {
@@ -89,17 +113,23 @@ export default class TakeCounter {
     }
   }
 
-  private _initOptions(options: TakeCounterOptions): TakeCounterOptions {
+  private _initOptions(
+    options: TakeCounterOptions,
+    overrides: TakeCounterOptions,
+  ): TakeCounterOptions {
     return (this._options = {
       ...DEFAULT_OPTIONS,
       ...options,
+      ...overrides,
       controls: {
         ...DEFAULT_OPTIONS.controls,
         ...options.controls,
+        ...overrides.controls,
       },
       modifiers: {
         ...DEFAULT_OPTIONS.modifiers,
         ...options.modifiers,
+        ...overrides.modifiers,
       },
     });
   }
@@ -116,10 +146,12 @@ export default class TakeCounter {
     };
   }
 
-  /** Reset the take to the initialTake value and set the state to 'NEXT'  */
+  /** Reset the take to the initialTake value and set the state to 'NEXT' */
   resetTake() {
     this.takes.reset();
     this._message.setNextMessage();
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Increment the current take count if the current state is 'CURRENT' and set the state to 'NEXT'. If the state is 'NEXT' then enter 'CURRENT' state and do not increment the take */
@@ -134,6 +166,7 @@ export default class TakeCounter {
     if (this._message.current === StateMessage.CURRENT) {
       this.takes.incrementCount();
       this._message.setNextMessage();
+      this._historyManager.set(this.pass, this.take);
     } else {
       this._message.setCurrentMessage();
     }
@@ -146,6 +179,7 @@ export default class TakeCounter {
       this._message.setNextMessage();
     } else {
       this.takes.decrementCount();
+      this._historyManager.set(this.pass, this.take);
     }
   }
 
@@ -155,11 +189,13 @@ export default class TakeCounter {
     this.takes.set(
       parseInt(
         prompt(
-          `Select a take: ${this._options.initialTake} - ${this._options.maxTakeCount}`,
+          `Select a take: ${this._options.minTakeCount} - ${this._options.maxTakeCount}`,
         ),
         10,
       ),
     );
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Increment the current pass count only if the pass container is visible */
@@ -173,6 +209,16 @@ export default class TakeCounter {
     if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
+
+    if (!this._options.disablePassHistoryLoad) {
+      try {
+        this.takes.set(this._historyManager.load(this.pass));
+      } catch (err) {
+        this._historyManager.set(this.pass, this.take);
+      }
+    } else {
+      this._historyManager.set(this.pass, this.take);
+    }
   }
 
   /** Decrement the current pass count */
@@ -182,6 +228,16 @@ export default class TakeCounter {
     }
 
     this.passes.decrementCount();
+
+    if (!this._options.disablePassHistoryLoad) {
+      try {
+        this.takes.set(this._historyManager.load(this.pass));
+      } catch (err) {
+        this._historyManager.set(this.pass, this.take);
+      }
+    } else {
+      this._historyManager.set(this.pass, this.take);
+    }
   }
 
   /** When starting a new pass increment the count. If resetTakeOnNewPass is set for legacy reasons then the take will be reset to 1 */
@@ -191,6 +247,8 @@ export default class TakeCounter {
     if (this._options.resetTakeOnNewPass) {
       this.resetTake();
     }
+
+    this._historyManager.set(this.pass, this.take);
   }
 
   /** Toggle whether the pass container should be visible or not. The pass container is a legacy feature that may not always be needed */
@@ -205,8 +263,10 @@ export default class TakeCounter {
   resetAndClear() {
     // TODO replace with custom UI
     if (confirm('Reset?')) {
-      this.passes.reset();
-      this.resetTake();
+      this.takes.reset(false);
+      this.passes.reset(false);
+      this._message.setNextMessage();
+      this._historyManager.reset({ [this.pass]: this.take });
     }
   }
 }

@@ -52,7 +52,7 @@ export class Counter {
     return this._count;
   }
 
-  reset(): number {
-    return this.set(this._initialCount);
+  reset(useInitial = true): number {
+    return this.set(useInitial ? this._initialCount : this._minCount);
   }
 }

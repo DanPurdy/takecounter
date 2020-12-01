@@ -18,6 +18,7 @@ async function runTests() {
           'e2e/tests/default/pass-count.test.ts',
           'e2e/tests/default/select-take.test.ts',
           'e2e/tests/default/reset-clear.test.ts',
+          'e2e/tests/default/history-states.test.ts',
         ])
         .browsers([runInHeadlessMode ? 'chrome:headless' : 'chrome'])
         .reporter([

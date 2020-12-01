@@ -1,6 +1,7 @@
 /// <reference path="../typings/module.d.ts" />
 
 export const HIDDEN_CLASSNAME: string = 'hidden';
+export const LOCALSTORAGE_HISTORY_KEY = 'history';
 export const FULL_WIDTH_CLASSNAME: string = 'full-width';
 export const ACTIVE_MESSAGE_SECTION_CLASS = 'message-current';
 
@@ -16,6 +17,7 @@ export const DEFAULT_OPTIONS_CONTROLS = {
 } as TakeCounterControls;
 
 export const DEFAULT_OPTIONS = {
+  disablePassHistoryLoad: false,
   hidePassOnStartup: false,
   initialPass: 1,
   initialTake: 1,

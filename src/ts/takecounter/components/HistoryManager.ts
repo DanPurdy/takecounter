@@ -78,8 +78,8 @@ export class HistoryManager {
     throw new Error(`Pass ${key} does not exist`);
   }
 
-  reset(): void {
-    this._history = { ...DEFAULT_STATE };
+  reset(state: TakeCounterHistoryState = DEFAULT_STATE): void {
+    this._history = { ...state };
 
     this._saveToStorage();
   }

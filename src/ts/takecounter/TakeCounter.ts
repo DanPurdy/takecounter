@@ -266,7 +266,7 @@ export default class TakeCounter {
       this.takes.reset(false);
       this.passes.reset(false);
       this._message.setNextMessage();
-      this._historyManager.set(this.pass, this.take);
+      this._historyManager.reset({ [this.pass]: this.take });
     }
   }
 }

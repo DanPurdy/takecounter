@@ -62,7 +62,7 @@ slack-fail-post-step: &slack-post-steps
 orbs:
   node: circleci/node@3.0.0
   slack: circleci/slack@4.1.1
-  overalls: coveralls/coveralls@1.0.6
+  coveralls: coveralls/coveralls@1.0.6
 jobs:
   prepare-dependencies:
     working_directory: ~/takecounter

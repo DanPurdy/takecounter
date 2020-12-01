@@ -36,3 +36,7 @@ interface TakeCounterOptions {
   minTakeCount?: number;
   resetTakeOnNewPass?: boolean;
 }
+
+interface TakeCounterHistoryState {
+  [key: number]: number;
+}

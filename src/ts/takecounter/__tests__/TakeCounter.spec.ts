@@ -2,9 +2,12 @@ import {
   DEFAULT_OPTIONS,
   HIDDEN_CLASSNAME,
   FULL_WIDTH_CLASSNAME,
+  LOCALSTORAGE_HISTORY_KEY,
 } from '../../constants';
 import { StateMessage } from '../components/MessageHandler';
 import TakeCounter from '../TakeCounter';
+
+const DEFAULT_TEST_STATE = { 1: 10, 2: 20 };
 
 function getDefaultElements(): TakeCounterElements {
   const newElement = document.createElement('div');
@@ -21,6 +24,11 @@ function getDefaultElements(): TakeCounterElements {
 }
 
 describe('TakeCounter', () => {
+  afterEach(() => {
+    window?.localStorage?.clear();
+    jest.resetAllMocks();
+  });
+
   it('should throw an element not found error if we dont pass valid selectors to the elements options', () => {
     try {
       const takeCounter = new TakeCounter({
@@ -98,6 +106,60 @@ describe('TakeCounter', () => {
     expect(takeCounter.passes).toBeDefined();
     expect(takeCounter.takes.count).toEqual(1);
     expect(takeCounter.passes.count).toEqual(1);
+
+    expect(takeCounter.takes.count).toEqual(takeCounter.take);
+    expect(takeCounter.passes.count).toEqual(takeCounter.pass);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
+  });
+
+  it('should initialise the take and pass counters with the correct history if user chooses to load it', () => {
+    const confirmSpy = jest
+      .spyOn(global, 'confirm' as any)
+      .mockReturnValue(true);
+
+    window.localStorage.setItem(
+      LOCALSTORAGE_HISTORY_KEY,
+      JSON.stringify(DEFAULT_TEST_STATE),
+    );
+    const takeCounter = new TakeCounter({
+      ...getDefaultElements(),
+    });
+
+    expect(takeCounter.options.initialPass).toBe(2);
+    expect(takeCounter.options.initialTake).toBe(20);
+
+    expect(takeCounter.takes).toBeDefined();
+    expect(takeCounter.passes).toBeDefined();
+    expect(takeCounter.takes.count).toEqual(20);
+    expect(takeCounter.passes.count).toEqual(2);
+
+    expect(takeCounter.takes.count).toEqual(takeCounter.take);
+    expect(takeCounter.passes.count).toEqual(takeCounter.pass);
+
+    expect(takeCounter.history[takeCounter.pass]).toBe(takeCounter.take);
+  });
+
+  it('should initialise the take and pass counters with the correct history if user chooses not to load it', () => {
+    const confirmSpy = jest
+      .spyOn(global, 'confirm' as any)
+      .mockReturnValue(true);
+
+    window.localStorage.setItem(
+      LOCALSTORAGE_HISTORY_KEY,
+      JSON.stringify(DEFAULT_TEST_STATE),
+    );
+    const takeCounter = new TakeCounter({
+      ...getDefaultElements(),
+    });
+
+    expect(takeCounter.options.initialPass).toBe(2);
+    expect(takeCounter.options.initialTake).toBe(20);
+
+    expect(takeCounter.takes).toBeDefined();
+    expect(takeCounter.passes).toBeDefined();
+    expect(takeCounter.takes.count).toEqual(20);
+    expect(takeCounter.passes.count).toEqual(2);
 
     expect(takeCounter.takes.count).toEqual(takeCounter.take);
     expect(takeCounter.passes.count).toEqual(takeCounter.pass);

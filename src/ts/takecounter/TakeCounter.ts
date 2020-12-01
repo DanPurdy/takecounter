@@ -19,6 +19,21 @@ export default class TakeCounter {
   ) {
     // Validate all the elements exists that we need
     this._validateElements(elements);
+
+    // Check our local storage historical state and if found, whether the user wants to load
+    this._historyManager = new HistoryManager();
+    const overrides: TakeCounterOptions = { controls: {}, modifiers: {} };
+
+    if (this._historyManager.checkAndLoadHistoricalData()) {
+      const {
+        pass: historicalPass,
+        take: historicalTake,
+      } = this._historyManager.latestPassAndTake;
+
+      overrides.initialPass = historicalPass;
+      overrides.initialTake = historicalTake;
+    }
+
     const {
       initialPass,
       initialTake,
@@ -27,9 +42,10 @@ export default class TakeCounter {
       minPassCount,
       minTakeCount,
       modifiers: { activeClassName, hiddenClassName, fullWidthClassName },
-    } = this._initOptions(options);
+    } = this._initOptions(options, overrides);
 
-    this._historyManager = new HistoryManager();
+    // Set our history state with our initial value (kinda redundant if we loaded from history but won't harm to set exact same values again)
+    this._historyManager.set(initialPass, initialTake);
 
     // Setup our containers
     this._passContainer = new ContainerHandler(
@@ -66,8 +82,6 @@ export default class TakeCounter {
       minTakeCount,
     );
 
-    this._historyManager.set(this.pass, this.take);
-
     // Setup our controls and initial state
     this._initialiseHandlers(this._options.controls);
   }
@@ -99,17 +113,23 @@ export default class TakeCounter {
     }
   }
 
-  private _initOptions(options: TakeCounterOptions): TakeCounterOptions {
+  private _initOptions(
+    options: TakeCounterOptions,
+    overrides: TakeCounterOptions,
+  ): TakeCounterOptions {
     return (this._options = {
       ...DEFAULT_OPTIONS,
       ...options,
+      ...overrides,
       controls: {
         ...DEFAULT_OPTIONS.controls,
         ...options.controls,
+        ...overrides.controls,
       },
       modifiers: {
         ...DEFAULT_OPTIONS.modifiers,
         ...options.modifiers,
+        ...overrides.modifiers,
       },
     });
   }

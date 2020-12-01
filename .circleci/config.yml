@@ -98,7 +98,7 @@ jobs:
           command: npm run test
           when: always
       - coveralls/upload:
-          path_to_lcov: ./coverage/lcov/lcov.info
+          path_to_lcov: ./coverage/lcov.info
       - run:
           name: Save output
           command: |

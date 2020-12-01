@@ -189,7 +189,7 @@ export default class TakeCounter {
     this.takes.set(
       parseInt(
         prompt(
-          `Select a take: ${this._options.initialTake} - ${this._options.maxTakeCount}`,
+          `Select a take: ${this._options.minTakeCount} - ${this._options.maxTakeCount}`,
         ),
         10,
       ),

@@ -46,7 +46,7 @@ describe('History Manager', () => {
 
     history.reset();
 
-    expect(history.state).toEqual({});
+    expect(history.state).toEqual({ '1': 1 });
   });
 
   it("Should throw an error when trying to access a pass that doesn't exist", () => {

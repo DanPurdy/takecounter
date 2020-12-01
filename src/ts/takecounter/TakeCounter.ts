@@ -263,9 +263,10 @@ export default class TakeCounter {
   resetAndClear() {
     // TODO replace with custom UI
     if (confirm('Reset?')) {
-      this._historyManager.reset();
-      this.passes.reset();
-      this.resetTake();
+      this.takes.reset(false);
+      this.passes.reset(false);
+      this._message.setNextMessage();
+      this._historyManager.set(this.pass, this.take);
     }
   }
 }

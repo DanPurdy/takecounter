@@ -158,3 +158,47 @@ test.before(async (t) => {
       .eql('3', 'Should match the highest pass in the history');
   },
 );
+
+test.before(async (t) => {
+  await setLocalStorageItem(
+    LOCALSTORAGE_HISTORY_KEY,
+    JSON.stringify({ '1': 2, '2': 3, '3': 5 }),
+  );
+
+  await t.setNativeDialogHandler((type) => {
+    if (type === 'confirm') {
+      return true;
+    }
+  }, {});
+
+  await t.wait(2000);
+  await t.eval(() => location.reload(true));
+  await customPressKey(DEFAULT_OPTIONS_CONTROLS.togglePassVisible);
+})(
+  'check historical values and load previously stored take values when incrementing/decrementing passes and history is cleared when take counter is reset',
+  async (t) => {
+    await t
+      .expect(getLocalStorageItem(LOCALSTORAGE_HISTORY_KEY))
+      .eql(
+        JSON.stringify({ '1': 2, '2': 3, '3': 5 }),
+        'Localstorage should contain the correct history',
+      )
+      .expect(tkPage.takeElement.innerText)
+      .eql('5', 'Should match the highest take in the history')
+      .expect(tkPage.passElement.innerText)
+      .eql('3', 'Should match the highest pass in the history');
+
+    await customPressKey(DEFAULT_OPTIONS_CONTROLS.resetAndClear);
+
+    await t
+      .expect(getLocalStorageItem(LOCALSTORAGE_HISTORY_KEY))
+      .eql(
+        JSON.stringify({ '1': 1 }),
+        'Localstorage should contain the correct history',
+      )
+      .expect(tkPage.takeElement.innerText)
+      .eql('1', 'Should match the highest take in the history')
+      .expect(tkPage.passElement.innerText)
+      .eql('1', 'Should match the highest pass in the history');
+  },
+);

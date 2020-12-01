@@ -79,6 +79,8 @@ export class HistoryManager {
   }
 
   reset(): void {
-    this._history = {};
+    this._history = { ...DEFAULT_STATE };
+
+    this._saveToStorage();
   }
 }

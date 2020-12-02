@@ -1,6 +1,7 @@
 # Takecounter
 
 [![CircleCI](https://circleci.com/gh/DanPurdy/takecounter.svg?style=svg)](https://circleci.com/gh/DanPurdy/takecounter)
+[![Coverage Status](https://coveralls.io/repos/github/DanPurdy/takecounter/badge.svg?branch=main)](https://coveralls.io/github/DanPurdy/takecounter?branch=main)
 
 Takecounter is a simple web application designed to allow anyone to keep track of and display takes and passes in a recording studio environment, or indeed anywhere that you may require a take counter!
 
@@ -41,14 +42,7 @@ npm run dev
 
 TODO
 
-[ ] Add options menu to allow updating and editing of controls without need to rebuild
-
-[ ] Add legacy mode - see V1 branch for slight differences in functionality
-
-[ ] Reimplment history of passes/takes and recallable history. Localstorage should be enough for this.
-
-[ ] Add offline support
-
+See the [project roadmap](https://github.com/DanPurdy/takecounter/projects/1)
 
 ---
 
@@ -76,6 +70,7 @@ Takecounter accepts an options object to allow customisation and user defined co
 | ---------------|--------------| ----------------------------| - |
 | `controls`     | `Object{}`   | [see controls](#controls-optionscontrols)    | |
 | `modifiers`    | `Object{}`   | [see modifiers](#modifiers-optionsmodifiers)  | |
+| `disablePassHistoryLoad` | `bool`  | true | If you increment or decrement a pass that already has a historical take count then it would load the take to match what you had on that pass. (see [history management](#history-management)) |
 | `hidePassOnStartup` | `bool`  | false | The pass section will not be hidden by default set to true to enable take only mode (or use the togglePassVisible method to switch between the two) |
 | `initialPass`  | `number`     | 1 | |
 | `initialTake`  | `number`     | 1 | |
@@ -145,4 +140,48 @@ const myTakeCounterApp = new TakeCounter(
 );
 ```
 
+### History Management
+---
+
+To help you spend less time configuring takecounter it will track your pass and take history as you use it. This history will be stored in the localstorage of your browser in key value format
+
+i.e.
+```js
+{pass#: take#}
+```
+which would look like
+```js
+// pass 1 - take 1
+// pass 2 - take 20
+// pass 3 - take 450
+{"1": 1, "2": 20, "3": 450}
+```
+
+If you have to restart your browser for some reason during a session or just next time you return to the takecounter in the same browser you will be asked if you wish to reload your previous state. If you choose not to then you will be restored to a fresh start of takecounter i.e. pass 1 take 1. However, if you choose yes then your session will be restored and you'll be started on the latest pass/take. In the example above you would be started at pass 3 take 450.
+
+If you don't use passes then your take history will just be stored against pass 1 and you should notice no other differences.
+
+#### options.disablePassHistoryLoad
+
+By default this option is set to `true`
+
+This option allows you to move between passes and restore the take to where it was when you moved to a different pass.
+
+Here's an example of how it would work if you have this option set to `false`
+
+Im on pass 1 and I go through 10 takes. My history would look like 
+
+```js
+{"1": 10}
+``` 
+
+I then move to take 2 and do another 10 takes
+
+```js
+{"1": 10, "2": 20 }
+```
+
+Now i decide to go back to pass 1 - my takes will be reset to 10 and i can continue from there. However i made a mistake and actually i wanted to be on pass 2 after all - i use the increment pass button to go back to pass 2 and my takes are reset to 20 where i left off.
+
+In the case that this option is set to `true` (as it is by default), whenever i increment or decrement takes my take number will not change and i can use passes and takes completely independently.
 

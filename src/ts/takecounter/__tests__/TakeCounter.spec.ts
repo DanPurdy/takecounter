@@ -714,6 +714,7 @@ describe('TakeCounter', () => {
         ...getDefaultElements(),
       },
       {
+        disablePassHistoryLoad: false,
         resetTakeOnNewPass: true,
       },
     );
@@ -735,7 +736,7 @@ describe('TakeCounter', () => {
     expect(takeCounter.take).toBe(5);
   });
 
-  it('should not load the previous passes take count when the pass disablePassHistoryLoad is false', () => {
+  it('should not load the previous passes take count when the pass disablePassHistoryLoad is true', () => {
     const promptSpy = jest
       .spyOn(global, 'prompt' as any)
       .mockReturnValueOnce(5);
@@ -804,5 +805,23 @@ describe('TakeCounter', () => {
 
     expect(takeCounter.pass).toBe(2);
     expect(takeCounter.take).toBe(6);
+  });
+
+  it('should set the pass and take correctly and store in history if it tries to load a non existant pass', () => {
+    const takeCounter = new TakeCounter(
+      {
+        ...getDefaultElements(),
+      },
+      {
+        initialPass: 10,
+        resetTakeOnNewPass: false,
+        disablePassHistoryLoad: false,
+      },
+    );
+
+    takeCounter.decrementPass();
+    expect(takeCounter.pass).toBe(9);
+    expect(takeCounter.take).toBe(1);
+    expect(takeCounter.history[9]).toBe(1);
   });
 });

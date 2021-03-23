@@ -30,7 +30,7 @@
     "prettier": "2.2.1",
     "pretty-quick": "^3.1.0",
     "sass": "^1.32.8",
-    "testcafe": "^1.12.0",
+    "testcafe": "^1.13.0",
     "testcafe-reporter-xunit": "^2.1.0",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"

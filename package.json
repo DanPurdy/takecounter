@@ -33,7 +33,7 @@
     "testcafe": "^1.13.0",
     "testcafe-reporter-xunit": "^2.1.0",
     "ts-jest": "^26.5.4",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "husky": {
     "hooks": {

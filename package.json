@@ -29,7 +29,7 @@
     "parcel-bundler": "^1.12.5",
     "prettier": "2.3.2",
     "pretty-quick": "^3.1.1",
-    "sass": "^1.35.1",
+    "sass": "^1.35.2",
     "testcafe": "^1.14.2",
     "testcafe-reporter-xunit": "^2.1.0",
     "ts-jest": "^26.5.6",

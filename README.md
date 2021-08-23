@@ -143,7 +143,7 @@ const myTakeCounterApp = new TakeCounter(
 ### History Management
 ---
 
-To help you spend less time configuring takecounter it will track your pass and take history as you use it. This history will be stored in the localstorage of your browser in key value format
+To help you spend less time configuring takecounter, your pass and take history will be stored locally in your browser as you use it in a key-value format.
 
 i.e.
 ```js

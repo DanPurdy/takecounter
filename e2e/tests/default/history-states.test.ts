@@ -141,7 +141,7 @@ test.before(async (t) => {
   }, {});
 
   await t.wait(2000);
-  await t.eval(() => location.reload(true));
+  await t.eval(() => location.reload());
   await customPressKey(DEFAULT_OPTIONS_CONTROLS.togglePassVisible);
 })(
   'check historical values and load previously stored take values when incrementing/decrementing passes',
@@ -172,7 +172,7 @@ test.before(async (t) => {
   }, {});
 
   await t.wait(2000);
-  await t.eval(() => location.reload(true));
+  await t.eval(() => location.reload());
   await customPressKey(DEFAULT_OPTIONS_CONTROLS.togglePassVisible);
 })(
   'check historical values and load previously stored take values when incrementing/decrementing passes and history is cleared when take counter is reset',

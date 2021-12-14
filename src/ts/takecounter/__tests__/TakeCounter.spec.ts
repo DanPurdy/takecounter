@@ -24,10 +24,19 @@ function getDefaultElements(): TakeCounterElements {
 }
 
 describe('TakeCounter', () => {
+  const jsdomAlert = window.alert;  // remember the jsdom alert
+  beforeEach(() => {
+    window.alert = () => {};
+  })
+
   afterEach(() => {
     window?.localStorage?.clear();
     jest.resetAllMocks();
   });
+
+  afterAll(() => {
+    window.alert = jsdomAlert;  // reset the jsdom alert
+  })
 
   it('should throw an element not found error if we dont pass valid selectors to the elements options', () => {
     try {

@@ -72,15 +72,20 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache{{ checksum "package-lock.json" }}-v2
       - run:
           name: Install Dependencies
           command: |
             npm ci
+      - run:
+          name: Build
+          command: |
+            npm run build
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}-v2
           paths:
             - ./node_modules
+            - .parcel-cache
       - store_artifacts:
           path: package-lock.json
       - persist_to_workspace:
@@ -122,7 +127,7 @@ jobs:
       - image: cimg/node:current-browsers
     steps:
       - browser-tools/install-chrome
-      - browser-tools/install-chromedriver          
+      - browser-tools/install-chromedriver
       - attach_workspace:
           at: .
       - run:

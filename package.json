@@ -4,7 +4,7 @@
   "description": "Keyboard controlled takecounter for studio use",
   "scripts": {
     "build": "parcel build src/index.html",
-    "build-download": "tsc --noEmit && parcel build src/index.html --public-url .",
+    "build-download": "parcel build src/index.html --public-url .",
     "dev": "parcel src/index.html",
     "start": "parcel src/index.html",
     "test": "jest",

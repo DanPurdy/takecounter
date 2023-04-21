@@ -77,11 +77,15 @@ jobs:
           name: Install Dependencies
           command: |
             npm ci
+      - run:
+          name: Build
+          command: |
+            npm run build
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-            - .parcel-cache
+            - ./parcel-cache
       - store_artifacts:
           path: package-lock.json
       - persist_to_workspace:

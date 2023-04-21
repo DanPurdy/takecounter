@@ -63,6 +63,7 @@ orbs:
   node: circleci/node@3.0.0
   slack: circleci/slack@4.1.1
   coveralls: coveralls/coveralls@1.0.6
+  browser-tools: circleci/browser-tools@1.4.1
 jobs:
   prepare-dependencies:
     working_directory: ~/takecounter
@@ -120,6 +121,8 @@ jobs:
     docker:
       - image: cimg/node:current-browsers
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver          
       - attach_workspace:
           at: .
       - run:

@@ -1,7 +1,7 @@
 node_modules
 dist/*
 !dist/.gitkeep
-.cache
+.parcel-cache/
 coverage
 e2e/logs/**/*.json
 e2e/result.xml

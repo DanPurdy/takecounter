@@ -81,6 +81,7 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+            - .parcel-cache
       - store_artifacts:
           path: package-lock.json
       - persist_to_workspace:
@@ -122,7 +123,7 @@ jobs:
       - image: cimg/node:current-browsers
     steps:
       - browser-tools/install-chrome
-      - browser-tools/install-chromedriver          
+      - browser-tools/install-chromedriver
       - attach_workspace:
           at: .
       - run:

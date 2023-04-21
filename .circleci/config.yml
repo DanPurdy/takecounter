@@ -118,7 +118,7 @@ jobs:
       E2E_HEADLESS: 'true'
     working_directory: ~/takecounter
     docker:
-      - image: circleci/node:12.19-browsers
+      - image: cimg/node:current-browsers
     steps:
       - attach_workspace:
           at: .

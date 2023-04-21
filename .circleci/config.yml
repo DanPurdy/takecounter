@@ -72,7 +72,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache{{ checksum "package-lock.json" }}-v1
       - run:
           name: Install Dependencies
           command: |
@@ -82,7 +82,7 @@ jobs:
           command: |
             npm run build
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}-v1
           paths:
             - ./node_modules
             - ./parcel-cache

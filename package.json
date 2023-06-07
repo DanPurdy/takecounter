@@ -38,6 +38,6 @@
     "testcafe": "^2.5.1-rc.1",
     "testcafe-reporter-xunit": "^2.2.2",
     "ts-jest": "^29.1.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.1.3"
   }
 }

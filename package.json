@@ -23,7 +23,7 @@
   "homepage": "https://github.com/DanPurdy/takecounter#readme",
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.8.3",
-    "@parcel/transformer-sass": "^2.8.3",
+    "@parcel/transformer-sass": "^2.10.2",
     "@parcel/transformer-webmanifest": "^2.8.3",
     "@parcel/validator-typescript": "^2.8.3",
     "@types/jest": "^29.5.1",
